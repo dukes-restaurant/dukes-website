@@ -15,15 +15,17 @@
     /* Headers */
     h1 { font-size: 1.8rem; color: #2c3e50; margin: 0 0 0.5rem 0; padding-bottom: 8px; }
     p { font-size: 1.1rem; color: #7f8c8d; margin: 0 0 2rem 0; }
-    h2 { font-size: 1.3rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; }
+    h2 { font-size: 1.3rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; text-align:center; }
     
     /* --- CSS Grid for the 5 Boxes --- */
+
+
     .menu-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr); /* 5 equal columns */
-      gap: 15px; /* Space between boxes */
+      grid-template-columns: repeat(5, 1fr); 
+      gap: 15px; 
       margin-bottom: 2rem;
-      align-items: stretch; /* Make all boxes the same height */
+      align-items: stretch; 
     }
     
     .menu-box {
@@ -38,12 +40,16 @@
     .box-header {
       background-color: #f1f3f5;
       padding: 12px 10px;
-      text-align: center;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      display: flex;
+      flex-direction: row;
       border-bottom: 2px solid #e2e6ea;
     }
     
     .day-name { font-weight: 700; font-size: 1.1rem; color: #2c3e50; }
-    .date { font-size: 0.85rem; color: #7f8c8d; margin-top: 2px; }
+    .date { font-size: 0.85rem; color: rgb(84, 87, 87); margin-top: 2px; }
     
     .box-content {
       padding: 12px 10px;
@@ -75,13 +81,21 @@
       color: #2c3e50;
       border-top: 1px dashed #dcdde1;
     }
-    /* ------------------------------------- */
 
-    /* Table Styling (for "Ganze Woche" section) */
-    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 2rem; }
-    th, td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid #e0e0e0; }
-    th { background-color: #f1f3f5; color: #495057; font-weight: 600; border-bottom: 2px solid #dee2e6; }
-    tbody tr:nth-child(even) { background-color: #f8f9fa; }
+
+    .menu-flex-center {
+      display: flex;
+      justify-content: center; /* Centers the group of boxes */
+      gap: 15px;
+      margin-bottom: 2rem;
+      align-items: stretch;
+    }
+
+    /* Force these boxes to be the exact same width as your 5-column grid above */
+    .menu-flex-center .menu-box {
+      width: calc((100% - 60px) / 5); /* 60px accounts for the four 15px gaps */
+    }
+   
     
     /* Responsive adjustment just for screen viewing, won't affect print */
     @media (max-width: 1000px) {
@@ -172,26 +186,51 @@
   </div>
   
   <h2>Ganze Woche</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Menü</th>
-        <th>Gericht</th>
-        <th>Preis</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Vegi-Hit</td>
-        <td>Hausgemachte Gemüselasagne mit buntem Blattsalat</td>
-        <td>17.50 CHF</td>
-      </tr>
-      <tr>
-        <td>Klassiker</td>
-        <td>Fitness-Teller mit saftiger Pouletbrust und Früchten</td>
-        <td>23.00 CHF</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="menu-flex-center">
+    <!-- Menu 2 -->
+    <div class="menu-box">
+      <div class="box-header">
+        <div class="day-name">Menu 2</div>
+        <div class="date">19.10.</div>
+      </div>
+      <div class="box-content">
+        <div class="dish-label">Suppe</div>
+        <div class="dish-text">Kürbiscremesuppe</div>
+        <div class="dish-label">Hauptgang</div>
+        <div class="dish-text">Spaghetti Bolognese mit geriebenem Parmesan und Beilagensalat</div>
+      </div>
+      <div class="box-price">18.50 CHF</div>
+    </div>
+    
+    <!-- Menu 3 -->
+    <div class="menu-box">
+      <div class="box-header">
+        <div class="day-name">Menu 3</div>
+        <div class="date">20.10.</div>
+      </div>
+      <div class="box-content">
+        <div class="dish-label">Suppe</div>
+        <div class="dish-text">Tagessuppe</div>
+        <div class="dish-label">Hauptgang</div>
+        <div class="dish-text">Zürcher Geschnetzeltes mit knuspriger Butterrösti</div>
+      </div>
+      <div class="box-price">22.00 CHF</div>
+    </div>
+
+    <!-- Special -->
+    <div class="menu-box">
+      <div class="box-header">
+        <div class="day-name">Special</div>
+        <div class="date">20.10.</div>
+      </div>
+      <div class="box-content">
+        <div class="dish-label">Suppe</div>
+        <div class="dish-text">Tagessuppe</div>
+        <div class="dish-label">Hauptgang</div>
+        <div class="dish-text">Zürcher Geschnetzeltes mit knuspriger Butterrösti</div>
+      </div>
+      <div class="box-price">22.00 CHF</div>
+    </div>
+  </div>
 </body>
 </html>

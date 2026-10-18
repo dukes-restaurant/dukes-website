@@ -114,20 +114,36 @@
   const WEEK_HEAD = ['Menü', 'Gericht', 'Preis'];
 
   const printMenu = (r) => {
-    const table = (head, body) => `<table><thead><tr>${head.map((c) => `<th>${esc(c)}</th>`).join('')}</tr></thead>`
-      + `<tbody>${body.map((row) => `<tr>${row.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+    const box = (name, date, parts, price) => `<div class="menu-box">
+        <div class="box-header"><div class="day-name">${esc(name)}</div>${date ? `<div class="date">${esc(date)}</div>` : ''}</div>
+        <div class="box-content">${parts.filter(([, text]) => text).map(([label, text]) => `<div class="dish-label">${esc(label)}</div><div class="dish-text">${esc(text)}</div>`).join('')}</div>
+        <div class="box-price">${esc(price)}</div>
+      </div>`;
+    const daily = r.daily.map(([day, date, soup, dish, price]) => box(day, date.slice(0, 6), [['Suppe', soup], ['Hauptgang', dish]], price)).join('');
+    const week = r.week.map(([name, dish, price]) => box(name, '', [['Hauptgang', dish]], price)).join('');
     const html = `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>${esc(r.title)}</title><style>
-      body { font-family: Arial, Helvetica, sans-serif; color: #000; margin: 1.5cm; }
-      h1 { font-size: 1.5rem; margin: 0 0 0.25rem; }
-      h2 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
-      table { width: 100%; border-collapse: collapse; }
-      th, td { border: 1px solid #000; padding: 0.4rem 0.5rem; text-align: left; vertical-align: top; }
-      th { background: #eee; }
-      @page { margin: 0; }
+      @page { size: A4 landscape; margin: 1.5cm; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+      body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; margin: 0; }
+      h1 { font-size: 1.8rem; color: #2c3e50; margin: 0 0 0.5rem; }
+      p { font-size: 1.1rem; color: #7f8c8d; margin: 0 0 1.5rem; }
+      h2 { font-size: 1.3rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; text-align: center; }
+      .menu-grid, .menu-flex-center { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 1.5rem; align-items: stretch; }
+      .menu-flex-center { display: flex; justify-content: center; }
+      .menu-flex-center .menu-box { width: calc((100% - 60px) / 5); }
+      .menu-box { border: 1px solid #dcdde1; border-radius: 8px; display: flex; flex-direction: column; background: #fff; overflow: hidden; break-inside: avoid; }
+      .box-header { background: #f1f3f5; padding: 12px 10px; justify-content: center; align-items: center; gap: 10px; display: flex; border-bottom: 2px solid #e2e6ea; }
+      .day-name { font-weight: 700; font-size: 1.1rem; color: #2c3e50; }
+      .date { font-size: 0.85rem; color: #545757; margin-top: 2px; }
+      .box-content { padding: 12px 10px; flex-grow: 1; }
+      .dish-label { font-size: 0.75rem; text-transform: uppercase; color: #95a5a6; font-weight: 600; letter-spacing: 0.5px; margin-top: 8px; }
+      .dish-label:first-child { margin-top: 0; }
+      .dish-text { font-size: 0.95rem; color: #2f3640; margin-top: 2px; margin-bottom: 8px; }
+      .box-price { padding: 10px; background: #f8f9fa; text-align: center; font-weight: 700; color: #2c3e50; border-top: 1px dashed #dcdde1; }
     </style></head><body>
       <h1>${esc(r.title)}</h1><p>${esc(r.range)}</p>
-      <h2>Menü 1</h2>${table(DAILY_HEAD, r.daily)}
-      ${r.week.length ? `<h2>Ganze Woche</h2>${table(WEEK_HEAD, r.week)}` : ''}
+      <h2>Menü 1</h2><div class="menu-grid">${daily}</div>
+      ${r.week.length ? `<h2>Ganze Woche</h2><div class="menu-flex-center">${week}</div>` : ''}
     </body></html>`;
     const w = window.open('', '_blank');
     if (!w) { alert('Bitte Pop-ups für diese Seite erlauben, um zu drucken.'); return; }
