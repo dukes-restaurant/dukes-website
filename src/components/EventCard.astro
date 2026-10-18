@@ -15,7 +15,7 @@ const search = [e.data.title, e.data.area, e.body ?? ''].join(' ').toLowerCase()
   </div>
   <div class="min-w-0 flex-1">
     <h3 class="text-xl sm:text-2xl">{e.data.title}</h3>
-    <p class="text-sm font-semibold text-rust">{e.data.area}{e.data.time && ` · ${e.data.time} Uhr`}{e.data.price && ` · ${e.data.price}`}</p>
+    <p class="text-sm font-semibold text-rust">{e.data.area}{e.data.time && ` - ${e.data.time} Uhr`}{e.data.price && ` - ${e.data.price}`}</p>
     {!compact && paragraphs.length > 0 && (
       <div class="mt-2 space-y-2 whitespace-pre-line text-bark/80">{paragraphs.map((t) => <p>{t}</p>)}</div>
     )}

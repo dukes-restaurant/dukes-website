@@ -42,7 +42,7 @@ const events = defineCollection({
     title: text(120),
     date: z.coerce.date(),
     time: z.string().regex(/^\d{1,2}[:.]\d{2}$/, 'Zeit im Format 20:00').optional(),
-    area: z.enum(['Eventsaal', 'Sihl3 Club', 'Saloon', 'Restaurant', 'Terrasse', 'Fonduestübli']).default('Sihl3 Club'),
+    area: z.enum(['Eventsaal', 'Dukes Club', 'Saloon', 'Restaurant', 'Terrasse', 'Fonduestübli']).default('Dukes Club'),
     image: localImage.optional(),      // z.B. /events/plakat.jpg (Datei in public/events/)
     price: text(60).optional(),
     draft: z.boolean().default(false), // true = nur lokal (npm run dev) sichtbar

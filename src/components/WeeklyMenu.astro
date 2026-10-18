@@ -9,18 +9,23 @@ const dayDate = (i: number) => {
 ---
 {menu ? (
   <div>
-    <div class="flex flex-wrap items-baseline justify-between gap-2">
-      <p class="font-semibold text-bark/70">{menu.data.week} · {fmtDay(menu.data.from)} – {fmtDay(menu.data.to)}</p>
-      <p class="text-sm text-bark/70">{menu.data.note}</p>
-    </div>
+    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-rust">{menu.data.week} - {fmtDay(menu.data.from)} – {fmtDay(menu.data.to)}</p>
+    <h2 class="mt-2 text-4xl sm:text-5xl">Wochenmenü</h2>
+    <p class="mt-2 text-lg font-semibold">Menu inlcusive Salat oder Suppe</p>
+
+    {/* <div class="flex flex-wrap items-baseline justify-between gap-2">
+      <p class="font-semibold text-bark/70">{menu.data.week} &nbsp;&nbsp; - &nbsp;&nbsp; {fmtDay(menu.data.from)} – {fmtDay(menu.data.to)}</p>
+    </div> */}
+      {/* <p class="text-sm text-bark/70">{menu.data.note}</p> */}
 
     <!-- Menü 1: wechselt täglich -->
-    <h3 class="mt-6 text-2xl">Menü 1 <span class="text-base font-normal text-bark/60">· täglich wechselnd</span></h3>
+    <h3 class="mt-6 text-2xl">Menü 1</h3>
     <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
       {menu.data.daily.map((d, i) => (
         <article class="flex flex-col rounded-2xl bg-white/70 p-5 shadow-sm ring-1 ring-bark/10">
           <p class="text-xs font-semibold uppercase tracking-widest text-rust">{d.day} <span class="text-bark/50">{dayDate(i)}</span></p>
-          {d.soup && <p class="mt-2 text-sm italic text-bark/70">{d.soup}</p>}
+          {d.soup && <p class="mt-2 text-sm text-bark">{d.soup}</p>} 
+          {/* italic */}
           <p class="mt-2 font-semibold leading-snug">{d.dish}</p>
           {(d.price ?? menu.data.menu1Price) && <p class="mt-auto pt-3 font-semibold">{d.price ?? menu.data.menu1Price}</p>}
         </article>
@@ -44,6 +49,6 @@ const dayDate = (i: number) => {
         ))}
       </div>
     ))}
-    <p class="mt-4 text-xs text-bark/60">Informationen zu Allergenen und Unverträglichkeiten erhalten Sie bei unserem Personal.</p>
+    <p class="mt-4 text-sm text-bark/70">Informationen zu Allergenen und Unverträglichkeiten erhalten Sie bei unserem Personal.</p>
   </div>
 ) : <p>Das Wochenmenü folgt in Kürze.</p>}

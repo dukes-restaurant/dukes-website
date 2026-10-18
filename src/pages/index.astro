@@ -10,7 +10,7 @@ import { Image } from 'astro:assets';
 const areas = [
   { title: 'Restaurant', text: 'Mittagsmenü unter der Woche, am Abend Steaks und Klassiker. Mit Saloon, Wintergarten und Terrasse.', img: '/images/restaurant.jpg', href: '#wochenmenu' },
   { title: 'Events', text: 'Eventsaal für Feiern, Firmenanlässe und Live-Bands.', img: '/images/eventsaal.jpg', href: '/veranstaltungen' },
-  { title: 'Sihl3 Club', text: 'Partylokal seit 1997 – feiern bis in die Nacht.', img: '/images/sihl3-club.jpg', href: '/veranstaltungen', tag: 'MI–SO ab 20:00' },
+  { title: 'Dukes Club', text: 'Partylokal seit 1997 – feiern bis in die Nacht.', img: '/images/sihl3-club.jpg', href: '/veranstaltungen', tag: 'MI–SO ab 20:00' },
 ];
 
 // Im Build die nächsten Events vorrendern; vergangene blendet das Script im Browser aus.
@@ -43,8 +43,7 @@ const SHOW = 3;
 
   <section id="wochenmenu" class="scroll-mt-20 bg-cream">
     <div class="mx-auto max-w-7xl px-5 py-20">
-      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-rust">Mittagstisch</p>
-      <h2 class="mt-2 text-4xl sm:text-5xl">Wochenmenü</h2>
+
       <div class="mt-6"><WeeklyMenu /></div>
     </div>
   </section>
@@ -77,7 +76,7 @@ const SHOW = 3;
         <p class="mt-3">Telefon <a class="font-semibold underline" href={contact.phoneHref}>{contact.phone}</a></p>
         <p>E-Mail <a class="font-semibold underline" href={`mailto:${contact.email}`}>{contact.email}</a></p>
         <p class="mt-3 text-sm text-cream/80">Anfragen werden bis 10:00 des Tages bearbeitet, Bestätigung nur per E-Mail.</p>
-        <a href={bookingUrl} data-reserve target="_blank" class="mt-5 inline-block rounded-full bg-gold px-6 py-2.5 font-semibold text-ink hover:bg-cream">Online reservieren</a>
+        <!-- <a href={bookingUrl} data-reserve target="_blank" class="mt-5 inline-block rounded-full bg-gold px-6 py-2.5 font-semibold text-ink hover:bg-cream">Online reservieren</a> -->
       </div>
     </div>
   </section>
