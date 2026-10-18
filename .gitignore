@@ -3,3 +3,4 @@ dist
 .astro
 .claude
 public/admin/vendor
+pages/test.html

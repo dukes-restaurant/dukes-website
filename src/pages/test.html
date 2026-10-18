@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Wochenmenü 43</title>
+  <style>
+    /* Print layout */
+    @page { size: A4 landscape; margin: 1.5cm; }
+    
+    /* Added a small screen margin for easier live previewing in browser */
+    body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; margin: 2rem; }
+    
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+    
+    /* Headers */
+    h1 { font-size: 1.8rem; color: #2c3e50; margin: 0 0 0.5rem 0; padding-bottom: 8px; }
+    p { font-size: 1.1rem; color: #7f8c8d; margin: 0 0 2rem 0; }
+    h2 { font-size: 1.3rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; }
+    
+    /* --- CSS Grid for the 5 Boxes --- */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr); /* 5 equal columns */
+      gap: 15px; /* Space between boxes */
+      margin-bottom: 2rem;
+      align-items: stretch; /* Make all boxes the same height */
+    }
+    
+    .menu-box {
+      border: 1px solid #dcdde1;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
+      overflow: hidden;
+    }
+    
+    .box-header {
+      background-color: #f1f3f5;
+      padding: 12px 10px;
+      text-align: center;
+      border-bottom: 2px solid #e2e6ea;
+    }
+    
+    .day-name { font-weight: 700; font-size: 1.1rem; color: #2c3e50; }
+    .date { font-size: 0.85rem; color: #7f8c8d; margin-top: 2px; }
+    
+    .box-content {
+      padding: 12px 10px;
+      flex-grow: 1; /* Pushes the price to the bottom if content is short */
+    }
+    
+    .dish-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #95a5a6;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-top: 8px;
+    }
+    .dish-label:first-child { margin-top: 0; }
+    
+    .dish-text {
+      font-size: 0.95rem;
+      color: #2f3640;
+      margin-top: 2px;
+      margin-bottom: 8px;
+    }
+    
+    .box-price {
+      padding: 10px;
+      background-color: #f8f9fa;
+      text-align: center;
+      font-weight: 700;
+      color: #2c3e50;
+      border-top: 1px dashed #dcdde1;
+    }
+    /* ------------------------------------- */
+
+    /* Table Styling (for "Ganze Woche" section) */
+    table { width: 100%; border-collapse: collapse; font-size: 0.95rem; margin-bottom: 2rem; }
+    th, td { padding: 10px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid #e0e0e0; }
+    th { background-color: #f1f3f5; color: #495057; font-weight: 600; border-bottom: 2px solid #dee2e6; }
+    tbody tr:nth-child(even) { background-color: #f8f9fa; }
+    
+    /* Responsive adjustment just for screen viewing, won't affect print */
+    @media (max-width: 1000px) {
+      .menu-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Wochenmenü 43</h1>
+  <p>19.10. – 23.10.</p>
+  
+  <h2>Menü 1</h2>
+  <div class="menu-grid">
+    <!-- Monday -->
+    <div class="menu-box">
+      <div class="box-header">
+        <div class="day-name">Montag</div>
+        <div class="date">19.10.</div>
+      </div>
+      <div class="box-content">
+        <div class="dish-label">Suppe</div>
+        <div class="dish-text">Kürbiscremesuppe</div>
+        <div class="dish-label">Hauptgang</div>
+        <div class="dish-text">Spaghetti Bolognese mit geriebenem Parmesan und Beilagensalat</div>
+      </div>
+      <div class="box-price">18.50 CHF</div>
+    </div>
+    
+    <!-- Tuesday -->
+    <div class="menu-box">
+      <div class="box-header">
+        <div class="day-name">Dienstag</div>
+        <div class="date">20.10.</div>
+      </div>
+      <div class="box-content">
+        <div class="dish-label">Suppe</div>
+        <div class="dish-text">Tagessuppe</div>
+        <div class="dish-label">Hauptgang</div>
+        <div class="dish-text">Zürcher Geschnetzeltes mit knuspriger Butterrösti</div>
+      </div>
+      <div class="box-price">22.00 CHF</div>
+    </div>
+    
+    <!-- Wednesday -->
+    <div class="menu-box">
+      <div class="box-header">
+        <div class="day-name">Mittwoch</div>
+        <div class="date">21.10.</div>
+      </div>
+      <div class="box-content">
+        <div class="dish-label">Suppe</div>
+        <div class="dish-text">Bouillon mit Ei</div>
+        <div class="dish-label">Hauptgang</div>
+        <div class="dish-text">Gebratenes Lachsfilet auf Blattspinat mit Salzkartoffeln</div>
+      </div>
+      <div class="box-price">24.50 CHF</div>
+    </div>
+    
+    <!-- Thursday -->
+    <div class="menu-box">
+      <div class="box-header">
+        <div class="day-name">Donnerstag</div>
+        <div class="date">22.10.</div>
+      </div>
+      <div class="box-content">
+        <div class="dish-label">Suppe</div>
+        <div class="dish-text">Minestrone</div>
+        <div class="dish-label">Hauptgang</div>
+        <div class="dish-text">Rotes Thai-Curry mit Poulet und duftendem Basmatireis</div>
+      </div>
+      <div class="box-price">19.50 CHF</div>
+    </div>
+    
+    <!-- Friday -->
+    <div class="menu-box">
+      <div class="box-header">
+        <div class="day-name">Freitag</div>
+        <div class="date">23.10.</div>
+      </div>
+      <div class="box-content">
+        <div class="dish-label">Suppe</div>
+        <div class="dish-text">Tomatencrèmesuppe</div>
+        <div class="dish-label">Hauptgang</div>
+        <div class="dish-text">Paniertes Schweinsschnitzel mit Pommes Frites und Gemüse</div>
+      </div>
+      <div class="box-price">21.00 CHF</div>
+    </div>
+  </div>
+  
+  <h2>Ganze Woche</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Menü</th>
+        <th>Gericht</th>
+        <th>Preis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Vegi-Hit</td>
+        <td>Hausgemachte Gemüselasagne mit buntem Blattsalat</td>
+        <td>17.50 CHF</td>
+      </tr>
+      <tr>
+        <td>Klassiker</td>
+        <td>Fitness-Teller mit saftiger Pouletbrust und Früchten</td>
+        <td>23.00 CHF</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
