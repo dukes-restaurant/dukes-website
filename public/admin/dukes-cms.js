@@ -101,7 +101,7 @@
   /** Gemeinsame Tabellendaten für Vorschau und Druck */
   const rows = (d) => ({
     title: `Wochenmenü ${d.week ?? ''}`,
-    range: `${toSwiss(d.from)} – ${toSwiss(d.to)}${d.note ? ` · ${d.note}` : ''}`,
+    range: `${toSwiss(d.from)} – ${toSwiss(d.to)}${d.note ? ` ${d.note}` : ''}`,
     daily: (d.daily ?? []).map((x, i) => [x.day, addDays(d.from, i), x.soup ?? '', x.dish ?? '', x.price || d.menu1Price || '']),
     week: [...(d.menus ?? []), ...(d.specials ?? [])].map((m) => [
       `${m.name ?? ''}${m.tag ? ` (${m.tag})` : ''}`,
@@ -119,12 +119,12 @@
         <div class="box-content">${parts.filter(([, text]) => text).map(([label, text]) => `<div class="dish-label">${esc(label)}</div><div class="dish-text">${esc(text)}</div>`).join('')}</div>
         <div class="box-price">${esc(price)}</div>
       </div>`;
-    const daily = r.daily.map(([day, date, soup, dish, price]) => box(day, date.slice(0, 6), [['Suppe', soup], ['Hauptgang', dish]], price)).join('');
+    const daily = r.daily.map(([day, date, soup, dish, price]) => box(day, date.slice(0, 5), [['Suppe', soup], ['Hauptgang', dish]], price)).join('');
     const week = r.week.map(([name, dish, price]) => box(name, '', [['Hauptgang', dish]], price)).join('');
     const html = `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>${esc(r.title)}</title><style>
-      @page { size: A4 landscape; margin: 1.5cm; }
+      @page { size: A4 landscape; margin: 0; }
       * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
-      body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; margin: 0; }
+      body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; margin: 0; padding: 1.5cm }
       h1 { font-size: 1.8rem; color: #2c3e50; margin: 0 0 0.5rem; }
       p { font-size: 1.1rem; color: #7f8c8d; margin: 0 0 1.5rem; }
       h2 { font-size: 1.3rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; text-align: center; }
