@@ -57,3 +57,7 @@ Dev: `npm run dev` → http://localhost:4321 (CMS at `/admin`). Build: `npm run 
 | Cache headers | Hashed CSS/JS/fonts cached 1 year; HTML always fresh |
 
 The page-level CSP (which scripts/images may load) is set by Astro as a `<meta>` tag – see `astro.config.mjs`.
+
+
+
+
