@@ -5,18 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <!--
-      Eigene CSP für den Editor: Skripte nur von dukes.ch selbst,
+      Eigene CSP für den Editor: Skripte nur von dukes.ch selbst (+ Hash der Import-Map),
       Daten nur von GitHub (+ UI-Texte von unpkg, Schriften von jsdelivr – beides kein ausführbarer Code).
-      'unsafe-inline' bei Styles braucht die Editor-Oberfläche.
+      'unsafe-inline' bei Styles braucht die Editor-Oberfläche, frame-src blob: die Vorschau.
     -->
-    <meta http-equiv="content-security-policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://avatars.githubusercontent.com https://raw.githubusercontent.com; font-src 'self' data: https://cdn.jsdelivr.net; connect-src 'self' data: blob: https://api.github.com https://www.githubstatus.com https://unpkg.com; worker-src 'self' blob:; manifest-src 'self' blob:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+    <meta http-equiv="content-security-policy" content="default-src 'self'; script-src 'self' 'sha256-fJBP0ZBikYK/Fpj0TTE+Fx3JL/xy2Bb7rlwVFbeGePE='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://avatars.githubusercontent.com https://raw.githubusercontent.com; font-src 'self' data: https://cdn.jsdelivr.net; connect-src 'self' data: blob: https://api.github.com https://www.githubstatus.com https://unpkg.com; worker-src 'self' blob:; manifest-src 'self' blob:; frame-src blob:; object-src 'none'; base-uri 'self'; form-action 'none'" />
     <meta name="referrer" content="no-referrer" />
     <title>dukes – Inhalte bearbeiten</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <!-- Fester Pfad, damit /admin und /admin/ gleich funktionieren -->
     <link rel="cms-config-url" type="application/yaml" href="/admin/config.yml" />
+    <!-- Wird von scripts/copy-cms.mjs erzeugt (inkl. Hash in der CSP oben): lädt "immutable" lokal statt von unpkg -->
+    <script type="importmap">{"imports":{"https://unpkg.com/immutable@5.1.9/dist/immutable.es.js":"/admin/vendor/immutable.es.js"}}</script>
   </head>
   <body>
     <script src="/admin/vendor/sveltia-cms.js"></script>
+    <!-- Eigene Erweiterungen: Datumsfeld TT/MM/JJJJ, Wochenmenü-Druckvorschau -->
+    <script src="/admin/dukes-cms.js"></script>
   </body>
 </html>

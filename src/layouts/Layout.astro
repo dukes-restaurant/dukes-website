@@ -6,8 +6,9 @@ import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import ReservationDialog from '../components/ReservationDialog.astro';
+import FlyerDialog from '../components/FlyerDialog.astro';
 interface Props { title?: string; description?: string }
-const { title = 'Dukes Restaurant', description = 'Restaurant, Saloon, Eventsaal und Club in Sihlbrugg – dukes Restaurant, Partylokal sihl3.' } = Astro.props;
+const { title = 'Dukes Restaurant', description = 'Restaurant, Saloon, Eventsaal und Club in Sihlbrugg – dukes Restaurant, Dukes Club.' } = Astro.props;
 ---
 <!doctype html>
 <html lang="de-CH">
@@ -24,5 +25,6 @@ const { title = 'Dukes Restaurant', description = 'Restaurant, Saloon, Eventsaal
     <main id="main"><slot /></main>
     <Footer />
     <!-- <ReservationDialog /> -->
+    <FlyerDialog />
   </body>
 </html>

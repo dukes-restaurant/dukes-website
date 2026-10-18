@@ -30,11 +30,11 @@ collections:
     create: true
     delete: true
     slug: "{{year}}-{{month}}-{{slug}}"
-    summary: "{{date}} – {{title}}"
+    summary: "{{date | date('DD/MM/YYYY')}} – {{title}}"
     sortable_fields: [date, title]
     fields:
       - { name: title, label: Titel, widget: string }
-      - { name: date, label: Datum, widget: datetime, time_format: false, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY" }
+      - { name: date, label: Datum, widget: swissdate }
       - name: time
         label: Zeit
         widget: string
@@ -54,19 +54,19 @@ collections:
   - name: wochenmenu
     label: Wochenmenü
     label_singular: Wochenmenü
-    description: "Tipp: Letzte Woche öffnen und mit «Duplizieren» als Vorlage verwenden."
+    description: "Tipp: Letzte Woche öffnen und mit «Duplizieren» als Vorlage verwenden. Zum Ausdrucken: Woche öffnen, in der Vorschau rechts «Drucken»."
     folder: src/content/wochenmenu
     format: frontmatter
     create: true
     delete: true
     identifier_field: week
     slug: "{{year}}-{{slug}}"
-    summary: "{{week}} (ab {{from}})"
+    summary: "{{week}} (ab {{from | date('DD/MM/YYYY')}})"
     sortable_fields: [from]
     fields:
       - { name: week, label: Woche, widget: string, hint: "z.B. KW 43" }
-      - { name: from, label: "Montag (Start)", widget: datetime, time_format: false, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY" }
-      - { name: to, label: "Freitag (Ende)", widget: datetime, time_format: false, format: "YYYY-MM-DD", date_format: "DD.MM.YYYY" }
+      - { name: from, label: "Montag (Start)", widget: swissdate }
+      - { name: to, label: "Freitag (Ende)", widget: swissdate }
       - { name: note, label: Hinweis, widget: string, default: "Vorspeise inklusive Salat oder Suppe" }
       - { name: menu1Price, label: "Menü 1 – Standardpreis", widget: string, required: false, hint: "z.B. CHF 21.00" }
       - name: daily

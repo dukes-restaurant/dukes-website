@@ -1,0 +1,26 @@
+---
+// Flyer/Plakat einer Veranstaltung gross anzeigen.
+// Jeder Link mit [data-flyer] öffnet ihn (href = Bild). Ohne JavaScript öffnet der Link einfach das Bild.
+---
+<dialog id="flyer-dialog" aria-label="Flyer" class="m-auto max-h-dvh max-w-none bg-transparent p-0 backdrop:bg-black/85">
+  <div class="relative flex max-h-dvh flex-col items-center p-4">
+    <button type="button" data-close class="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-ink/80 text-3xl leading-none text-cream hover:text-gold" aria-label="Schliessen">&times;</button>
+    <img alt="" class="max-h-[calc(100dvh-2rem)] w-auto max-w-[calc(100vw-2rem)] rounded-lg object-contain shadow-2xl" />
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('flyer-dialog') as HTMLDialogElement;
+  const img = dialog.querySelector('img')!;
+  document.addEventListener('click', (e) => {
+    const link = (e.target as Element).closest<HTMLAnchorElement>('a[data-flyer]');
+    if (!link) return;
+    e.preventDefault();
+    img.src = link.href;
+    img.alt = link.dataset.flyer ?? '';
+    dialog.showModal();
+  });
+  dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
+  // Klick neben das Bild schliesst
+  dialog.addEventListener('click', (e) => { if (e.target !== img) dialog.close(); });
+</script>

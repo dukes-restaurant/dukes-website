@@ -8,21 +8,25 @@ const { event: e, compact = false } = Astro.props;
 const paragraphs = (e.body ?? '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 const search = [e.data.title, e.data.area, e.body ?? ''].join(' ').toLowerCase();
 ---
-<li data-event data-date={isoDay(e.data.date)} data-search={search} class="flex gap-5 overflow-hidden rounded-2xl bg-sand p-5">
+<li data-event data-date={isoDay(e.data.date)} data-search={search} class:list={['relative flex gap-5 overflow-hidden rounded-2xl bg-sand p-5', e.data.image && 'transition-shadow hover:shadow-md']}>
   <div class="flex h-20 w-20 shrink-0 flex-col items-center justify-center rounded-xl bg-ink text-cream">
     <span class="text-2xl font-bold leading-none">{e.data.date.getUTCDate()}</span>
     <span class="text-xs uppercase">{e.data.date.toLocaleDateString('de-CH', { month: 'short', timeZone: 'UTC' })}</span>
   </div>
   <div class="min-w-0 flex-1">
-    <h3 class="text-xl sm:text-2xl">{e.data.title}</h3>
+    <h3 class="text-xl sm:text-2xl">
+      {/* Mit Flyer: ganze Karte klickbar (after:inset-0) -> öffnet den Flyer (FlyerDialog) */}
+      {e.data.image ? (
+        <a href={e.data.image} data-flyer={`Flyer ${e.data.title}`} target="_blank" rel="noopener" class="after:absolute after:inset-0 after:rounded-2xl focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-rust">{e.data.title}</a>
+      ) : e.data.title}
+    </h3>
     <p class="text-sm font-semibold text-rust">{e.data.area}{e.data.time && ` - ${e.data.time} Uhr`}{e.data.price && ` - ${e.data.price}`}</p>
     {!compact && paragraphs.length > 0 && (
       <div class="mt-2 space-y-2 whitespace-pre-line text-bark/80">{paragraphs.map((t) => <p>{t}</p>)}</div>
     )}
+    {e.data.image && <p class:list={['mt-2 text-sm font-semibold text-rust underline underline-offset-4', !compact && 'sm:hidden']}>Flyer ansehen</p>}
   </div>
   {e.data.image && !compact && (
-    <a href={e.data.image} target="_blank" rel="noopener" class="hidden shrink-0 sm:block">
-      <img src={e.data.image} alt={`Plakat ${e.data.title}`} loading="lazy" class="h-32 w-auto rounded-lg shadow" />
-    </a>
+    <img src={e.data.image} alt="" loading="lazy" class="hidden h-32 w-auto shrink-0 rounded-lg shadow sm:block" />
   )}
 </li>

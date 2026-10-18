@@ -28,6 +28,8 @@ RedirectMatch 404 /\.(?!well-known)
 RedirectMatch 301 ^/restaurant/?$ /#bereiche
 RedirectMatch 301 ^/wochenmenue?/?$ /#wochenmenu
 RedirectMatch 301 ^/lokal-mieten/?$ /#lokal-mieten
+RedirectMatch 301 ^/kontakt/?$ /#lokal-mieten
+RedirectMatch 301 ^/ueber-uns/?$ /
 # Typische WordPress-Angriffsziele gibt es nicht mehr
 RedirectMatch 410 ^/(wp-admin|wp-login\.php|wp-content|wp-includes|xmlrpc\.php)
 

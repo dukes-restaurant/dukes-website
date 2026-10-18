@@ -25,6 +25,8 @@ export default defineConfig({
     '/wochenmenu': '/#wochenmenu',
     '/wochenmenue': '/#wochenmenu',
     '/lokal-mieten': '/#lokal-mieten',
+    '/kontakt': '/#lokal-mieten',
+    '/ueber-uns': '/',
   },
   // Kein Code-Highlighting nötig (Shiki nutzt Inline-Styles, die die CSP blockieren würde)
   markdown: { syntaxHighlight: false },

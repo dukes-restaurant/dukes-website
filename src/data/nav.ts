@@ -6,8 +6,6 @@ export const nav: { label: string; href: string; match?: string }[] = [
   { label: 'WOCHENMENU', href: '/#wochenmenu' },
   // { label: 'LOKAL MIETEN', href: '/#lokal-mieten' },
   { label: 'VERANSTALTUNGEN', href: '/#veranstaltungen', match: '/veranstaltungen' },
-  { label: 'ÜBER UNS', href: '/ueber-uns' },
-  { label: 'KONTAKT', href: '/kontakt' },
 ];
 
 export const contact = {
@@ -24,8 +22,8 @@ export const contact = {
 
 // myLocalina / local.ch Reservations-Widget.
 // ID = letzter Teil der local.ch-Eintrags-URL (".../dukes-restaurant-nywC96knpXITaCh_OROwUA").
-// Leer lassen ('') → "Tisch reservieren" führt stattdessen zur Kontaktseite.
+// Leer lassen ('') → "Tisch reservieren" führt stattdessen zum Kontaktbereich der Startseite.
 export const bookingWidgetId = 'nywC96knpXITaCh_OROwUA';
 export const bookingUrl = bookingWidgetId
   ? `https://bookingwidget.local.ch/${bookingWidgetId}?lang=de&themeVariant=lagertha`
-  : '/kontakt';
+  : '/#lokal-mieten';
