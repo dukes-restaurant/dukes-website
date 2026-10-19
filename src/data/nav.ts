@@ -5,6 +5,7 @@ export const nav: { label: string; href: string; match?: string }[] = [
   // { label: 'RESTAURANT', href: '/#bereiche' },
   { label: 'WOCHENMENU', href: '/#wochenmenu' },
   // { label: 'LOKAL MIETEN', href: '/#lokal-mieten' },
+  { label: 'MENUS', href: '/#menus', match: '/menus' },
   { label: 'VERANSTALTUNGEN', href: '/#veranstaltungen', match: '/veranstaltungen' },
 ];
 
