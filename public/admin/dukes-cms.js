@@ -125,9 +125,9 @@
       @page { size: A4 landscape; margin: 0; }
       * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
       body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; margin: 0; padding: 1.5cm }
-      h1 { font-size: 1.8rem; color: #2c3e50; margin: 0 0 0.5rem; }
-      p { font-size: 1.1rem; color: #7f8c8d; margin: 0 0 1.5rem; }
-      h2 { font-size: 1.3rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; text-align: center; }
+      h1 { font-size: 2rem; color: #2c3e50; margin: 0 0 0.5rem; }
+      p { font-size: 1.3rem; color: #7f8c8d; margin: 0 0 1.5rem; }
+      h2 { font-size: 1.5rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; text-align: center; }
       .menu-grid, .menu-flex-center { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 1.5rem; align-items: stretch; }
       .menu-flex-center { display: flex; justify-content: center; }
       .menu-flex-center .menu-box { width: calc((100% - 60px) / 5); }
