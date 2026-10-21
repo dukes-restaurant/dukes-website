@@ -1,0 +1,120 @@
+---
+// Nur im Dev-Server erreichbar (/flyer-test), siehe astro.config.mjs → dev-only-pages
+import '@fontsource/zilla-slab/400.css';
+import '@fontsource/zilla-slab/700.css';
+const scale = ['1', '2', '3', '4', '5'];
+const rows = [
+  { label: 'Insgesamt', bold: true },
+  { label: 'Essen' },
+  { label: 'Service' },
+  { label: 'Wartezeit' },
+  { label: 'Atmosphäre und Sauberkeit', last: true},
+  // { label: 'Preis und Leistung',  },
+];
+const nps = Array.from({ length: 11 }, (_, i) => String(i));
+---
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Feedback Flyer</title>
+</head>
+<body>
+  <div class="flyer">
+    <div class="head">
+      <!-- <div class="brand">Dukes Restaurant</div> -->
+      <img src="/brand/dukes-logo.png" alt="dukes – essen, trinken, tanzen"  width="80" height="40" class="h-14 w-auto brightness-0 invert" />
+      <h1>Wie war’s?</h1>
+      <div class="sub">Eine Minute für uns. Ein Kaffee für Sie.</div>
+    </div>
+
+    <div class="col tight">
+      <div class="legend">
+        <!-- <div class="legend-title">Bitte bewerten Sie</div> -->
+        <div class="legend-scale"><span>schlecht</span><span>sehr gut</span></div>
+      </div>
+      {rows.map((r) => (
+        <div class:list={['row-grid', { last: r.last }]}>
+          <div class:list={['row-label', { bold: r.bold }]}>{r.label}</div>
+          {scale.map((n) => <div class="circle">{n}</div>)}
+        </div>
+      ))}
+    </div>
+
+    <div class="col hair">
+      <div class="q">Was hat Ihnen heute am besten geschmeckt?</div>
+      <div class="line"></div>
+      <div class="line"></div>
+
+    </div>
+    <div class="col hair">
+      <div class="q">Was hätte besser sein können?</div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+
+    <!-- <div class="col nps">
+      <div class="q">Wie wahrscheinlich empfehlen Sie uns weiter?</div>
+      <div class="nps-row">{nps.map((n) => <div class="circle-large">{n}</div>)}</div>
+      <div class="nps-legend"><span>0 gar nicht</span><span>10 ganz sicher</span></div>
+    </div> -->
+
+    <div class="col hair">
+      <div class="q">Wenn Sie bei uns eine Sache ändern könnten, was wäre das?</div>
+      <div class="line"></div>
+      <div class="line"></div>
+    </div>
+
+    <div class="foot">
+      <div class="thanks">Danke!</div>
+      <div class="foot-text">Zeigen Sie dieses Blatt Ihrer Bedienung.<br>Ihr Kaffee geht aufs Haus.</div>
+    </div>
+  </div>
+</body>
+</html>
+
+<style is:global>
+  @page { size: A5 portrait; margin: 0cm; }
+
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+
+  body { margin: 0; background: #f0f0f0; display: flex; justify-content: center; }
+  .flyer {
+    width: 559px; height: 794px; box-sizing: border-box; padding: 28px 36px;
+    background: #fff; color: #1a1a1a; font-family: 'Zilla Slab', system-ui, sans-serif;
+    display: flex; flex-direction: column; gap: 10px; overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .flyer .head { display: flex; flex-direction: column; gap: 4px; }
+  .flyer .brand { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+  .flyer h1 { margin: 0; font-weight: semibold; font-size: 64px; line-height: 1.05; color: #a67c2e; }
+  .flyer .sub { font-size: 16px; line-height: 1.6; }
+  .flyer .col { display: flex; flex-direction: column; gap: 2px; }
+  .flyer .col.tight { gap: 4px; }
+  .flyer .col.nps { gap: 6px; }
+  .flyer .q { font-size: 14px; font-weight: 700; }
+  .flyer .line { height: 26px; border-bottom: 1px solid #1a1a1a; }
+  .flyer .legend { display: grid; grid-template-columns: 1fr repeat(5, 40.5px); align-items: end; font-size: 12px; padding-bottom: 2px; }
+  .flyer .legend-title { font-weight: 700; font-size: 14px; }
+  .flyer .legend-scale { grid-column: 2 / span 5; display: flex; justify-content: space-between; }
+  .flyer .row-grid { display: grid; grid-template-columns: 1fr repeat(5, 40px); align-items: center; height: 29px; border-top: 1px solid #a67c2e; }
+  .flyer .row-grid.last { border-bottom: 1px solid #a67c2e; }
+  .flyer .row-label { font-size: 14px; }
+  .flyer .row-label.bold { font-weight: 700; }
+  .flyer .circle, .flyer .circle-large {
+    box-sizing: border-box; border: 1.5px solid #1a1a1a; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 12px;
+  }
+  .flyer .circle { width: 24px; height: 24px; margin: 0 auto; }
+  .flyer .circle-large { width: 30px; height: 30px; }
+  .flyer .nps-row { display: flex; justify-content: space-between; }
+  .flyer .nps-legend { display: flex; justify-content: space-between; font-size: 12px; }
+  .flyer .foot {
+    margin-top: auto; background: #1a1a1a; color: #fff; border-top: 3px solid #a67c2e;
+    padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .flyer .thanks { font-size: 26px; line-height: 1; color: #a67c2e; }
+  .flyer .foot-text { font-size: 14px; line-height: 1.35; text-align: right; }
+</style>
