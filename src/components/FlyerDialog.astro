@@ -4,7 +4,19 @@
 ---
 <dialog id="flyer-dialog" aria-label="Flyer" class="m-auto max-h-dvh max-w-none bg-transparent p-0 backdrop:bg-black/85">
   <div class="relative flex max-h-dvh flex-col items-center p-4">
-    <button type="button" data-close class="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-ink/80 text-3xl leading-none text-cream hover:text-gold" aria-label="Schliessen">&times;</button>
+    <!-- button to close x -->
+    <button 
+      type="button" 
+      data-close 
+      class="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-ink/80 text-cream hover:text-gold hover:cursor-pointer" 
+      aria-label="Schliessen"
+    >
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
     <img alt="" class="max-h-[calc(100dvh-2rem)] w-auto max-w-[calc(100vw-2rem)] rounded-lg object-contain shadow-2xl" />
   </div>
 </dialog>

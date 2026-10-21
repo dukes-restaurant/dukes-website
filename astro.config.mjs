@@ -15,9 +15,20 @@ const adminDevIndex = {
   },
 };
 
+// Test-Seiten, die nur im Dev-Server (`npm run dev`) existieren und nie im Build landen
+const devOnlyPages = {
+  name: 'dev-only-pages',
+  hooks: {
+    'astro:config:setup': ({ command, injectRoute }) => {
+      if (command !== 'dev') return;
+      injectRoute({ pattern: '/flyer-test', entrypoint: './src/dev/flyer-test.astro' });
+    },
+  },
+};
+
 export default defineConfig({
   site: 'https://dukes.ch',
-  integrations: [adminDevIndex],
+  integrations: [adminDevIndex, devOnlyPages],
   // Alte Unterseiten zeigen auf die Abschnitte der Startseite
   // (zusätzlich als echte 301-Weiterleitung in public/.htaccess)
   redirects: {
