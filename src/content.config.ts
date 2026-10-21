@@ -35,16 +35,20 @@ const text = (max: number) => z.string().trim().min(1).max(max);
 // Nur lokale Bilder aus public/events/ (keine externen URLs, kein javascript: usw.)
 const localImage = z.string().regex(/^\/events\/[a-z0-9][a-z0-9._-]*\.(jpe?g|png|webp)$/i, 'Bild muss unter /events/ liegen, z.B. /events/plakat.jpg');
 
+// Das CMS speichert leere optionale Felder als '' – das gilt hier als "nicht gesetzt".
+const optional = <T extends z.ZodTypeAny>(schema: T) =>
+  z.preprocess((v) => (typeof v === 'string' && v.trim() === '' ? undefined : v), schema.optional());
+
 // Eine Datei pro Veranstaltung in src/content/events/
 const events = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/events' }),
   schema: z.object({
     title: text(120),
     date: z.coerce.date(),
-    time: z.string().regex(/^\d{1,2}[:.]\d{2}$/, 'Zeit im Format 20:00').optional(),
+    time: optional(z.string().regex(/^\d{1,2}[:.]\d{2}$/, 'Zeit im Format 20:00')),
     area: z.enum(['Eventsaal', 'Dukes Club', 'Saloon', 'Restaurant', 'Terrasse', 'Fonduestübli']).default('Dukes Club'),
-    image: localImage.optional(),      // z.B. /events/plakat.jpg (Datei in public/events/)
-    price: text(60).optional(),
+    image: optional(localImage),    // z.B. /events/plakat.jpg (Datei in public/events/)
+    price: optional(text(60)),
     draft: z.boolean().default(false), // true = nur lokal (npm run dev) sichtbar
   }),
 });
