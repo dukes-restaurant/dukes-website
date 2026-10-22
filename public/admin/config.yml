@@ -45,7 +45,7 @@ collections:
         label: Bereich
         widget: select
         default: Dukes Club
-        options: [Eventsaal, Dukes Club, Saloon, Restaurant, Terrasse, Fonduestübli]
+        options: [Eventsaal, Dukes Club, Saloon, Restaurant, Terrasse, Fonduestübli, Zuger Messe]
       - { name: price, label: "Preis / Eintritt", widget: string, required: false, hint: "z.B. Eintritt frei" }
       - { name: image, label: Plakat, widget: image, required: false, accept: "image/jpeg,image/png,image/webp" }
       - { name: draft, label: "Entwurf (nicht veröffentlichen)", widget: boolean, default: false, required: false }

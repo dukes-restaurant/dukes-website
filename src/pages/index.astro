@@ -19,6 +19,7 @@ const menus = [
   // { title: 'Dessert', img: '', pdf: '/menus/dessert.pdf' },
   { title: 'Getränke', img: '', pdf: '/menus/getraenke.pdf' },
   { title: 'Fondue', img: '', pdf: '/menus/fondue.pdf' },
+
 ];
 
 // Im Build die nächsten Events vorrendern; vergangene blendet das Script im Browser aus.
@@ -60,7 +61,7 @@ const SHOW = 3;
     <div class="mx-auto max-w-7xl px-5 py-20">
       <p class="text-sm font-semibold uppercase tracking-[0.25em] text-rust">Speisekarten</p>
       <h2 class="mt-2 text-4xl sm:text-5xl">Unsere Menüs</h2>
-      <div class="mx-auto mt-10 grid grid-cols-4 gap-4 sm:gap-6">
+      <div class="mx-auto mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5">
         {menus.map((m) => (
           <a href={m.pdf} target="_blank" rel="noopener" class="group relative isolate block aspect-square overflow-hidden rounded-2xl bg-wood shadow-sm transition duration-300 hover:-translate-y-2.5 hover:shadow-2xl">
             <img src={m.img} alt="" loading="lazy" class="absolute inset-0 -z-10 h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
