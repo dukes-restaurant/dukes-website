@@ -14,8 +14,8 @@ const areas = [
 ];
 
 const menus = [
-  { title: 'Abendkarte', img: '', pdf: '/menus/abendkarte.pdf' },
-  { title: 'Mittagkarte', img: '', pdf: '/menus/mittagkarte.pdf' },
+  { title: 'Abendkarte', img: '', pdf: '/menus/abend.pdf' },
+  { title: 'Mittagkarte', img: '', pdf: '/menus/mittag.pdf' },
   // { title: 'Dessert', img: '', pdf: '/menus/dessert.pdf' },
   { title: 'Getränke', img: '', pdf: '/menus/getraenke.pdf' },
   { title: 'Fondue', img: '', pdf: '/menus/fondue.pdf' },
@@ -42,22 +42,21 @@ const SHOW = 3;
     </div>
   </section>
 
-  <section id="bereiche" class="hidden mx-auto max-w-7xl scroll-mt-20 px-5 py-20">
-    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-rust">Unsere Bereiche</p>
-    <h2 class="mt-2 text-4xl sm:text-5xl">Essen, trinken, tanzen</h2>
-    <div class="mt-10 grid gap-5 md:grid-cols-3">
-      {areas.map((a) => <AreaCard {...a} />)}
-    </div>
-  </section>
-
   <section id="wochenmenu" class="scroll-mt-20 bg-cream">
     <div class="mx-auto max-w-7xl px-5 py-20">
 
-      <div class="mt-6"><WeeklyMenu /></div>
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-rust">KW 44 26.10 - 30.10</p>
+      <h2 class="mt-2 text-4xl sm:text-5xl">Wochenmenü</h2>
+      <p class="mt-2 text-lg font-semibold">Menu inlcusive Salat oder Suppe</p>
+
+      <p class="mt-15 text-lg font-normal">Das Wochenmenu wird demnächst verfügbar sein.</p>
+
+
+      <!-- <div class="mt-6"><WeeklyMenu /></div> -->
     </div>
   </section>
 
-  <section id="menus" class="scroll-mt-20 bg-cream">
+  <section id="menus" class="scroll-mt-20 bg-cream border-t border-bark/10">
     <div class="mx-auto max-w-7xl px-5 py-20">
       <p class="text-sm font-semibold uppercase tracking-[0.25em] text-rust">Speisekarten</p>
       <h2 class="mt-2 text-4xl sm:text-5xl">Unsere Menüs</h2>
