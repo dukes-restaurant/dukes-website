@@ -31,7 +31,15 @@ collections:
     delete: true
     slug: "{{year}}-{{month}}-{{slug}}"
     summary: "{{date | date('DD/MM/YYYY')}} – {{title}}"
-    sortable_fields: [date, title]
+    
+    sortable_fields:
+      fields:
+        - date
+      default:
+        field: date
+        direction: ascending
+
+
     fields:
       - { name: title, label: Titel, widget: string }
       - { name: date, label: Datum, widget: swissdate }
@@ -62,7 +70,13 @@ collections:
     identifier_field: week
     slug: "{{year}}-{{slug}}"
     summary: "{{week}} (ab {{from | date('DD/MM/YYYY')}})"
-    sortable_fields: [from]
+    sortable_fields:
+      fields:
+        - from
+        - week
+      default:
+        field: from
+        direction: ascending
     fields:
       - { name: week, label: Woche, widget: string, hint: "z.B. KW 43" }
       - { name: from, label: "Montag (Start)", widget: swissdate }
