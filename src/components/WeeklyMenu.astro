@@ -111,7 +111,12 @@ const printData = menu && {
     w.document.write(html);
     w.document.close();
     w.focus();
-    w.print();
+    // Erst drucken, wenn das neue Fenster Styles angewendet hat (sonst erscheint ungestylter Text)
+    let printed = false;
+    const doPrint = () => { if (printed) return; printed = true; setTimeout(() => w.print(), 300); };
+    w.addEventListener('load', doPrint);
+    if (w.document.readyState === 'complete') doPrint();
+    setTimeout(doPrint, 1000);
   };
 
   const btn = document.getElementById('print-menu');
