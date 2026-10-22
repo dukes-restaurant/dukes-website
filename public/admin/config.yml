@@ -6,6 +6,8 @@ backend:
   name: github
   repo: dukes-restaurant/dukes-website
   branch: main
+  publish_mode: editorial_workflow
+  
   # Login per "Mit GitHub anmelden" braucht einen kleinen OAuth-Helfer (z.B. sveltia-cms-auth auf Cloudflare Workers):
   # base_url: https://dukes-cms-auth.<account>.workers.dev
   # Ohne base_url: Anmeldung mit persönlichem GitHub-Token (siehe security_info.md).

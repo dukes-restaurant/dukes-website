@@ -1,0 +1,29 @@
+name: Verify CMS Changes
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-content-only:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify no code was touched
+        run: |
+          # Compare files changed against the target main branch
+          CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
+          echo "Files touched in this PR:"
+          echo "$CHANGED_FILES"
+
+          for file in $CHANGED_FILES; do
+            # Allow ONLY markdown content and public uploads/images
+            if [[ ! "$file" =~ ^(src/content/|public/images/|public/uploads/) ]]; then
+              echo "::error::Blocked change to restricted path: $file"
+              exit 1
+            fi
+          done
