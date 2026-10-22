@@ -69,6 +69,32 @@ const printData = menu && {
   </div>
 )}
 
+<style is:global>
+  #print-root { display: none; }
+  @media print {
+    @page { size: A4 landscape; margin: 1.5cm; }
+    body.printing-menu > *:not(#print-root) { display: none !important; }
+    body.printing-menu { background: #fff !important; margin: 0; }
+    body.printing-menu #print-root { display: block; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; }
+    #print-root * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
+    #print-root h1 { font-size: 1.5rem; color: #2c3e50; margin: 0 0 0.5rem; }
+    #print-root p { font-size: 0.9rem; color: #7f8c8d; margin: 0 0 1.5rem; }
+    #print-root h2 { font-size: 1.5rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; text-align: center; }
+    #print-root .menu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 1.5rem; align-items: stretch; }
+    #print-root .menu-flex-center { display: flex; justify-content: center; gap: 15px; margin-bottom: 1.5rem; align-items: stretch; }
+    #print-root .menu-flex-center .menu-box { width: calc((100% - 60px) / 5); }
+    #print-root .menu-box { border: 1px solid #dcdde1; border-radius: 2px; display: flex; flex-direction: column; background: #fff; overflow: hidden; break-inside: avoid; }
+    #print-root .box-header { background: #f1f3f5; padding: 12px 10px; justify-content: center; align-items: center; gap: 10px; display: flex; border-bottom: 2px solid #e2e6ea; }
+    #print-root .day-name { font-weight: 700; font-size: 1.1rem; color: #2c3e50; }
+    #print-root .date { font-size: 0.85rem; color: #545757; margin-top: 2px; }
+    #print-root .box-content { padding: 12px 10px; flex-grow: 1; }
+    #print-root .dish-label { font-size: 0.75rem; text-transform: uppercase; color: #95a5a6; font-weight: 600; letter-spacing: 0.5px; margin-top: 8px; }
+    #print-root .dish-label:first-child { margin-top: 0; }
+    #print-root .dish-text { font-size: 0.95rem; color: #2f3640; margin-top: 2px; margin-bottom: 8px; }
+    #print-root .box-price { padding: 10px; background: #f8f9fa; text-align: center; font-weight: 700; color: #2c3e50; border-top: 1px dashed #dcdde1; }
+  }
+</style>
+
 <script>
   type Box = { name: string; date: string; parts: [string, string][]; price: string };
   type PrintData = { title: string; range: string; daily: Box[]; week: Box[] };
@@ -80,43 +106,17 @@ const printData = menu && {
       <div class="box-price">${esc(b.price)}</div>
     </div>`;
 
-  // Gleiches Layout wie die Druckvorschau im CMS (public/admin/dukes-cms.js)
+  // Gleiches Layout wie die Druckvorschau im CMS (public/admin/dukes-cms.js).
+  // Gedruckt wird direkt aus dieser Seite (Styles unten, @media print), da ein Popup mit Inline-<style> von der CSP des Servers geblockt werden kann.
   const printMenu = (r: PrintData) => {
-    const html = `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>${esc(r.title)}</title><style>
-      @page { size: A4 landscape; margin: 0; }
-      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
-      body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; margin: 0; padding: 1.5cm }
-      h1 { font-size: 1.5rem; color: #2c3e50; margin: 0 0 0.5rem; }
-      p { font-size: 0.9rem; color: #7f8c8d; margin: 0 0 1.5rem; }
-      h2 { font-size: 1.5rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; text-align: center; }
-      .menu-grid, .menu-flex-center { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 1.5rem; align-items: stretch; }
-      .menu-flex-center { display: flex; justify-content: center; }
-      .menu-flex-center .menu-box { width: calc((100% - 60px) / 5); }
-      .menu-box { border: 1px solid #dcdde1; border-radius: 2px; display: flex; flex-direction: column; background: #fff; overflow: hidden; break-inside: avoid; }
-      .box-header { background: #f1f3f5; padding: 12px 10px; justify-content: center; align-items: center; gap: 10px; display: flex; border-bottom: 2px solid #e2e6ea; }
-      .day-name { font-weight: 700; font-size: 1.1rem; color: #2c3e50; }
-      .date { font-size: 0.85rem; color: #545757; margin-top: 2px; }
-      .box-content { padding: 12px 10px; flex-grow: 1; }
-      .dish-label { font-size: 0.75rem; text-transform: uppercase; color: #95a5a6; font-weight: 600; letter-spacing: 0.5px; margin-top: 8px; }
-      .dish-label:first-child { margin-top: 0; }
-      .dish-text { font-size: 0.95rem; color: #2f3640; margin-top: 2px; margin-bottom: 8px; }
-      .box-price { padding: 10px; background: #f8f9fa; text-align: center; font-weight: 700; color: #2c3e50; border-top: 1px dashed #dcdde1; }
-    </style></head><body>
-      <h1>${esc(r.title)}</h1><p>${esc(r.range)}</p>
+    let root = document.getElementById('print-root');
+    if (!root) { root = document.createElement('div'); root.id = 'print-root'; document.body.appendChild(root); }
+    root.innerHTML = `<h1>${esc(r.title)}</h1><p>${esc(r.range)}</p>
       <h2>Menü 1</h2><div class="menu-grid">${r.daily.map(box).join('')}</div>
-      ${r.week.length ? `<h2>Ganze Woche</h2><div class="menu-flex-center">${r.week.map(box).join('')}</div>` : ''}
-    </body></html>`;
-    const w = window.open('', '_blank');
-    if (!w) { alert('Bitte Pop-ups für diese Seite erlauben, um zu drucken.'); return; }
-    w.document.write(html);
-    w.document.close();
-    w.focus();
-    // Erst drucken, wenn das neue Fenster Styles angewendet hat (sonst erscheint ungestylter Text)
-    let printed = false;
-    const doPrint = () => { if (printed) return; printed = true; setTimeout(() => w.print(), 300); };
-    w.addEventListener('load', doPrint);
-    if (w.document.readyState === 'complete') doPrint();
-    setTimeout(doPrint, 1000);
+      ${r.week.length ? `<h2>Ganze Woche</h2><div class="menu-flex-center">${r.week.map(box).join('')}</div>` : ''}`;
+    document.body.classList.add('printing-menu');
+    window.addEventListener('afterprint', () => document.body.classList.remove('printing-menu'), { once: true });
+    window.print();
   };
 
   const btn = document.getElementById('print-menu');
