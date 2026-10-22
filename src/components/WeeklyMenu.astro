@@ -6,6 +6,14 @@ const dayDate = (i: number) => {
   d.setUTCDate(d.getUTCDate() + i);
   return fmtDay(d);
 };
+
+const box = (name: string, date: string, parts: [string, string][], price: string) => ({ name, date, parts, price });
+const printData = menu && {
+  title: `Wochenmenü ${menu.data.week}`,
+  range: `${fmtDay(menu.data.from)} – ${fmtDay(menu.data.to)}${menu.data.note ? ` ${menu.data.note}` : ''}`,
+  daily: menu.data.daily.map((d, i) => box(d.day, dayDate(i), [['Suppe', d.soup ?? ''], ['Hauptgang', d.dish]], d.price ?? menu.data.menu1Price ?? '')),
+  week: [...menu.data.menus, ...menu.data.specials].map((m) => box(`${m.name}${m.tag ? ` (${m.tag})` : ''}`, '', [['Hauptgang', `${m.dish}${m.description ? ` – ${m.description}` : ''}`]], m.price)),
+};
 ---
 {menu ? (
   <div>
@@ -50,5 +58,55 @@ const dayDate = (i: number) => {
       </div>
     ))}
     <p class="mt-4 text-sm text-bark/70">Informationen zu Allergenen und Unverträglichkeiten erhalten Sie bei unserem Personal.</p>
+    <button type="button" id="print-menu" data-menu={JSON.stringify(printData)} class="mt-4 rounded-full bg-rust px-5 py-2 text-sm font-semibold text-white hover:opacity-90">Wochenmenü drucken</button>
   </div>
 ) : <p>Das Wochenmenü folgt in Kürze.</p>}
+
+<script>
+  type Box = { name: string; date: string; parts: [string, string][]; price: string };
+  type PrintData = { title: string; range: string; daily: Box[]; week: Box[] };
+
+  const esc = (s: string) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+  const box = (b: Box) => `<div class="menu-box">
+      <div class="box-header"><div class="day-name">${esc(b.name)}</div>${b.date ? `<div class="date">${esc(b.date)}</div>` : ''}</div>
+      <div class="box-content">${b.parts.filter(([, t]) => t).map(([l, t]) => `<div class="dish-label">${esc(l)}</div><div class="dish-text">${esc(t)}</div>`).join('')}</div>
+      <div class="box-price">${esc(b.price)}</div>
+    </div>`;
+
+  // Gleiches Layout wie die Druckvorschau im CMS (public/admin/dukes-cms.js)
+  const printMenu = (r: PrintData) => {
+    const html = `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>${esc(r.title)}</title><style>
+      @page { size: A4 landscape; margin: 0; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
+      body { font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; margin: 0; padding: 1.5cm }
+      h1 { font-size: 2rem; color: #2c3e50; margin: 0 0 0.5rem; }
+      p { font-size: 1.3rem; color: #7f8c8d; margin: 0 0 1.5rem; }
+      h2 { font-size: 1.5rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; text-align: center; }
+      .menu-grid, .menu-flex-center { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 1.5rem; align-items: stretch; }
+      .menu-flex-center { display: flex; justify-content: center; }
+      .menu-flex-center .menu-box { width: calc((100% - 60px) / 5); }
+      .menu-box { border: 1px solid #dcdde1; border-radius: 8px; display: flex; flex-direction: column; background: #fff; overflow: hidden; break-inside: avoid; }
+      .box-header { background: #f1f3f5; padding: 12px 10px; justify-content: center; align-items: center; gap: 10px; display: flex; border-bottom: 2px solid #e2e6ea; }
+      .day-name { font-weight: 700; font-size: 1.1rem; color: #2c3e50; }
+      .date { font-size: 0.85rem; color: #545757; margin-top: 2px; }
+      .box-content { padding: 12px 10px; flex-grow: 1; }
+      .dish-label { font-size: 0.75rem; text-transform: uppercase; color: #95a5a6; font-weight: 600; letter-spacing: 0.5px; margin-top: 8px; }
+      .dish-label:first-child { margin-top: 0; }
+      .dish-text { font-size: 0.95rem; color: #2f3640; margin-top: 2px; margin-bottom: 8px; }
+      .box-price { padding: 10px; background: #f8f9fa; text-align: center; font-weight: 700; color: #2c3e50; border-top: 1px dashed #dcdde1; }
+    </style></head><body>
+      <h1>${esc(r.title)}</h1><p>${esc(r.range)}</p>
+      <h2>Menü 1</h2><div class="menu-grid">${r.daily.map(box).join('')}</div>
+      ${r.week.length ? `<h2>Ganze Woche</h2><div class="menu-flex-center">${r.week.map(box).join('')}</div>` : ''}
+    </body></html>`;
+    const w = window.open('', '_blank');
+    if (!w) { alert('Bitte Pop-ups für diese Seite erlauben, um zu drucken.'); return; }
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    w.print();
+  };
+
+  const btn = document.getElementById('print-menu');
+  btn?.addEventListener('click', () => printMenu(JSON.parse(btn.dataset.menu!)));
+</script>
