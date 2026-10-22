@@ -2,11 +2,15 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+// Das CMS speichert leere optionale Felder als '' – das gilt hier als "nicht gesetzt".
+const optional = <T extends z.ZodTypeAny>(schema: T) =>
+  z.preprocess((v) => (typeof v === 'string' && v.trim() === '' ? undefined : v), schema.optional());
+
 const dish = z.object({
   name: z.string(),                    // z.B. "Menü 2", "Monats-Special"
-  tag: z.string().optional(),          // z.B. "Vegetarisch"
+  tag: optional(z.string()),         // z.B. "Vegetarisch"
   dish: z.string(),
-  description: z.string().optional(),
+  description: optional(z.string()),
   price: z.string(),                   // z.B. "CHF 19.00"
 });
 
@@ -18,12 +22,12 @@ const wochenmenu = defineCollection({
     from: z.coerce.date(),             // Montag der Woche
     to: z.coerce.date(),               // Freitag der Woche
     note: z.string().default('Vorspeise inklusive Salat oder Suppe'),
-    menu1Price: z.string().optional(), // Standardpreis Menü 1 (für Tage ohne eigenen Preis)
+    menu1Price: optional(z.string()), // Standardpreis Menü 1 (für Tage ohne eigenen Preis)
     daily: z.array(z.object({          // Menü 1 – wechselt täglich
       day: z.string(),                 // z.B. "Montag"
-      soup: z.string().optional(),
+      soup: optional(z.string()),
       dish: z.string(),
-      price: z.string().optional(),    // Preis nur für diesen Tag, z.B. "CHF 23.00"
+      price: optional(z.string()),    // Preis nur für diesen Tag, z.B. "CHF 23.00"
     })),
     specials: z.array(dish).default([]), // z.B. Monats-Special, Dukes Bowle
     menus: z.array(dish).default([]),    // Menü 2 / Menü 3 – ganze Woche gleich
@@ -34,10 +38,6 @@ const wochenmenu = defineCollection({
 const text = (max: number) => z.string().trim().min(1).max(max);
 // Nur lokale Bilder aus public/events/ (keine externen URLs, kein javascript: usw.)
 const localImage = z.string().regex(/^\/events\/[a-z0-9][a-z0-9._-]*\.(jpe?g|png|webp)$/i, 'Bild muss unter /events/ liegen, z.B. /events/plakat.jpg');
-
-// Das CMS speichert leere optionale Felder als '' – das gilt hier als "nicht gesetzt".
-const optional = <T extends z.ZodTypeAny>(schema: T) =>
-  z.preprocess((v) => (typeof v === 'string' && v.trim() === '' ? undefined : v), schema.optional());
 
 // Eine Datei pro Veranstaltung in src/content/events/
 const events = defineCollection({
