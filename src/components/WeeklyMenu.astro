@@ -72,9 +72,9 @@ const printData = menu && {
 <style is:global>
   #print-root { display: none; }
   @media print {
-    @page { size: A4 landscape; margin: 1.5cm; }
+    @page { size: A4 landscape; margin: 0cm; }
     body.printing-menu > *:not(#print-root) { display: none !important; }
-    body.printing-menu { background: #fff !important; margin: 0; }
+    body.printing-menu { background: #fff !important; margin: 0; padding: 1.5cm; }
     body.printing-menu #print-root { display: block; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; }
     #print-root * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
     #print-root h1 { font-size: 1.5rem; color: #2c3e50; margin: 0 0 0.5rem; }
