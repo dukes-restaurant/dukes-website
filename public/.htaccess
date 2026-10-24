@@ -24,6 +24,9 @@ RedirectMatch 404 /\.(?!well-known)
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
 
+# Unbekannte URLs zeigen die 404-Seite
+ErrorDocument 404 /404.html
+
 # Alte WordPress-Unterseiten dauerhaft (301) auf die Startseiten-Abschnitte umleiten
 RedirectMatch 301 ^/restaurant/?$ /#bereiche
 RedirectMatch 301 ^/wochenmenue?/?$ /#wochenmenu
