@@ -3,7 +3,7 @@
 // Jeder Link mit [data-flyer] öffnet ihn (href = Bild). Ohne JavaScript öffnet der Link einfach das Bild.
 ---
 <dialog id="flyer-dialog" aria-label="Flyer" class="m-auto max-h-dvh max-w-none bg-transparent p-0 backdrop:bg-black/85">
-  <div class="relative flex max-h-dvh flex-col items-center p-4">
+  <div class="relative flex max-h-dvh min-h-40 min-w-40 flex-col items-center p-4">
     <!-- button to close x -->
     <button 
       type="button" 
@@ -17,19 +17,46 @@
     </svg>
   </button>
 
-    <img alt="" class="max-h-[calc(100dvh-2rem)] w-auto max-w-[calc(100vw-2rem)] rounded-lg object-contain shadow-2xl" />
+    <!-- Ladeanzeige, solange das Bild noch nicht da ist -->
+    <div data-spinner class="absolute inset-0 m-auto h-10 w-10 animate-spin rounded-full border-4 border-cream/30 border-t-cream" role="status" aria-label="Lädt"></div>
+
+    <img alt="" class="max-h-[calc(100dvh-2rem)] w-auto max-w-[calc(100vw-2rem)] rounded-lg object-contain opacity-0 shadow-2xl transition-opacity duration-200" />
   </div>
 </dialog>
 
 <script>
   const dialog = document.getElementById('flyer-dialog') as HTMLDialogElement;
   const img = dialog.querySelector('img')!;
+  const spinner = dialog.querySelector<HTMLElement>('[data-spinner]')!;
+
+  const show = () => { img.classList.remove('opacity-0'); spinner.hidden = true; };
+  img.addEventListener('load', show);
+  img.addEventListener('error', () => { spinner.hidden = true; });
+
+  // Flyer vorladen, sobald jemand die Karte anfasst/anzeigt -> beim Klick meist schon im Cache
+  const preloaded = new Set<string>();
+  const preload = (e: Event) => {
+    const link = (e.target as Element).closest?.<HTMLAnchorElement>('a[data-flyer]');
+    if (!link || preloaded.has(link.href)) return;
+    preloaded.add(link.href);
+    new Image().src = link.href;
+  };
+  document.addEventListener('pointerover', preload);
+  document.addEventListener('touchstart', preload, { passive: true });
+  document.addEventListener('focusin', preload);
+
   document.addEventListener('click', (e) => {
     const link = (e.target as Element).closest<HTMLAnchorElement>('a[data-flyer]');
     if (!link) return;
     e.preventDefault();
-    img.src = link.href;
+    // altes Bild sofort ausblenden/entfernen, damit nie kurz der vorherige Flyer erscheint
+    img.classList.add('opacity-0');
+    spinner.hidden = false;
+    img.removeAttribute('src');
     img.alt = link.dataset.flyer ?? '';
+    img.src = link.href;
+    // bereits im Cache: sofort anzeigen
+    if (img.complete && img.naturalWidth > 0) show();
     dialog.showModal();
   });
   dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
