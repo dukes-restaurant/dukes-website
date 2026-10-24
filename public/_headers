@@ -17,3 +17,13 @@
 # Editor-Dateien haben keinen Hash im Namen -> immer neu prüfen, sonst bleiben Änderungen (z.B. Rechtschreibprüfung) hängen
 /admin/*
   Cache-Control: no-cache
+
+# Flyer ändern sich nach dem Upload kaum -> 14 Tage cachen (geänderte Flyer bitte unter neuem Dateinamen hochladen)
+/events/*
+  Cache-Control: public, max-age=1209600
+
+# Seitenbilder: 7 Tage. Menü-PDFs (/menus/*) bewusst nicht gecacht, damit Gäste immer die aktuelle Karte sehen
+/images/*
+  Cache-Control: public, max-age=604800
+
+# menus will always have to be checked because might change irregularly
