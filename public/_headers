@@ -1,0 +1,19 @@
+# Netlify-HTTP-Header (wird beim Build nach dist/ kopiert)
+
+/*
+  # HSTS: Browser nutzen nur noch HTTPS
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  # Clickjacking-Schutz: niemand darf dukes.ch in ein iframe einbetten
+  Content-Security-Policy: frame-ancestors 'none'
+  X-Frame-Options: DENY
+
+# Gehashte Build-Dateien (CSS/JS/Fonts) lange cachen; HTML und der Rest bleiben bei Netlify-Standard (immer prüfen)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Editor-Dateien haben keinen Hash im Namen -> immer neu prüfen, sonst bleiben Änderungen (z.B. Rechtschreibprüfung) hängen
+/admin/*
+  Cache-Control: no-cache

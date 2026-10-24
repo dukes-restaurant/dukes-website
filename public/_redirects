@@ -1,0 +1,18 @@
+# Netlify-Weiterleitungen (wird beim Build nach dist/ kopiert). "!" = gilt auch, wenn die Datei existiert
+# (Astro erzeugt für diese Pfade zusätzlich HTML-Weiterleitungsseiten, hier kommt die echte 301).
+
+# Alte WordPress-Unterseiten dauerhaft auf die Startseiten-Abschnitte umleiten
+/restaurant    /#bereiche       301!
+/wochenmenue   /#wochenmenu     301!
+/wochenmenu    /#wochenmenu     301!
+/lokal-mieten  /#lokal-mieten   301!
+/kontakt       /#lokal-mieten   301!
+/ueber-uns     /                301!
+
+# Typische WordPress-Angriffsziele gibt es nicht mehr (410 = dauerhaft weg)
+/wp-admin          /404.html  410!
+/wp-admin/*        /404.html  410!
+/wp-login.php      /404.html  410!
+/wp-content/*      /404.html  410!
+/wp-includes/*     /404.html  410!
+/xmlrpc.php        /404.html  410!

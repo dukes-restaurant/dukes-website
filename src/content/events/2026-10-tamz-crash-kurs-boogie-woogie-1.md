@@ -1,5 +1,5 @@
 ---
-title: TAMZ CRASH KURS BOOGIE WOOGIE
+title: TANZ CRASH KURS BOOGIE WOOGIE
 date: 2026-11-04
 time: '19.45'
 area: Eventsaal

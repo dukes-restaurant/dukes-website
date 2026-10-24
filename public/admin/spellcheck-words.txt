@@ -1,0 +1,48 @@
+# Wörter, die die Rechtschreibprüfung im Editor nie bemängeln soll (ein Wort pro Zeile, Gross-/Kleinschreibung egal).
+# Zeilen mit # sind Kommentare. Neue Wörter einfach unten anfügen.
+
+# Lokal / Bereiche
+dukes
+eventsaal
+fonduestübli
+
+# DJs und Bands
+babalou
+malibu
+vladi
+janosch
+andras
+giovanni
+thaler
+chrigi
+obi
+rasmus
+zillons
+rubernecks
+schabernack
+tschäggerlibuebe
+schwyzerörgeli
+uernerländli
+wurlitzer
+
+# Speisekarte (Mundart / Schweizer Schreibweise)
+spätzli
+hörnli
+brätchügeli
+pastetli
+ghackets
+risi-bisi
+wedges
+croûtons
+pouletgeschnetzeltes
+stroganoff
+
+# Englische Begriffe in Eventtiteln
+friday
+oldies
+crash
+
+# Namen
+hegner
+schmidig
+cozzia

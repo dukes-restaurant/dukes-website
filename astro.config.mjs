@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
-// Der Dev-Server liefert für Ordner in public/ kein index.html aus (Apache schon).
+// Der Dev-Server liefert für Ordner in public/ kein index.html aus (der Webserver schon).
 // Damit /admin auch bei `npm run dev` funktioniert:
 const adminDevIndex = {
   name: 'admin-dev-index',
@@ -30,7 +30,7 @@ export default defineConfig({
   site: 'https://dukes.ch',
   integrations: [adminDevIndex, devOnlyPages],
   // Alte Unterseiten zeigen auf die Abschnitte der Startseite
-  // (zusätzlich als echte 301-Weiterleitung in public/.htaccess)
+  // (zusätzlich als echte 301-Weiterleitung in public/_redirects)
   redirects: {
     '/restaurant': '/#bereiche',
     '/wochenmenu': '/#wochenmenu',
@@ -44,7 +44,7 @@ export default defineConfig({
   security: {
     // Content-Security-Policy als <meta> in jeder Seite. Astro ergänzt script-src/style-src
     // mit Hashes der eigenen Skripte – eingeschleuste Skripte werden vom Browser blockiert.
-    // Header, die per <meta> nicht gehen (frame-ancestors, HSTS …), stehen in public/.htaccess.
+    // Header, die per <meta> nicht gehen (frame-ancestors, HSTS …), stehen in public/_headers.
     csp: {
       directives: [
         "default-src 'self'",

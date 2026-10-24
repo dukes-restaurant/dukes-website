@@ -1,5 +1,5 @@
 ---
-title: FUKKY FRIDAY
+title: FUNKY FRIDAY
 date: 2027-01-01
 time: ''
 area: Saloon
