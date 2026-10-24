@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
 // Der Dev-Server liefert für Ordner in public/ kein index.html aus (der Webserver schon).
 // Damit /admin auch bei `npm run dev` funktioniert:
@@ -28,7 +29,7 @@ const devOnlyPages = {
 
 export default defineConfig({
   site: 'https://dukes.ch',
-  integrations: [adminDevIndex, devOnlyPages],
+  integrations: [adminDevIndex, devOnlyPages, sitemap({ filter: (page) => !page.includes('/admin') && !page.includes('/404') })],
   // Alte Unterseiten zeigen auf die Abschnitte der Startseite
   // (zusätzlich als echte 301-Weiterleitung in public/_redirects)
   redirects: {
