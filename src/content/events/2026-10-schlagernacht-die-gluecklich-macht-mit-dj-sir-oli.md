@@ -4,6 +4,6 @@ date: 2026-11-14
 time: ''
 area: Dukes Club
 price: ''
-image: /events/bild7.jpg
+image: /events/bild7.webp
 draft: false
 ---

@@ -4,6 +4,6 @@ date: 2026-12-19
 time: '20.30'
 area: Eventsaal
 price: ''
-image: /events/bild13.png
+image: /events/bild13.webp
 draft: false
 ---

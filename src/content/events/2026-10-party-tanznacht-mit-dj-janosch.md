@@ -4,6 +4,6 @@ date: 2026-10-31
 time: '20.00'
 area: Dukes Club
 price: ''
-image: /events/bild2.jpg
+image: /events/bild2.webp
 draft: false
 ---

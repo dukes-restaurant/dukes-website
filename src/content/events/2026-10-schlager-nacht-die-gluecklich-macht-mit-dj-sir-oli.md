@@ -4,6 +4,6 @@ date: 2026-12-12
 time: '20.00'
 area: Dukes Club
 price: ''
-image: /events/bild12.jpg
+image: /events/bild12.webp
 draft: false
 ---

@@ -1,9 +1,3 @@
-// Rechtschreibprüfung beim Speichern (Sveltia CMS, "preSave"-Hook).
-// - Prüft beim Klick auf «Speichern» alle Textfelder des Eintrags mit EINER Anfrage an LanguageTool (de-CH).
-// - Gefundene Tippfehler werden gesammelt in einem Dialog gelistet: «Zurück zum Korrigieren» bricht das Speichern ab,
-//   «Trotzdem speichern» speichert wie gewohnt (Fehlalarme bei Namen sind möglich und blockieren nie).
-// - Ist die Prüfung nicht erreichbar (offline, Limit erreicht), wird einfach gespeichert.
-// - Wörter, die nie bemängelt werden sollen (DJ-Namen, Bands, Gerichte), stehen in /admin/spellcheck-words.txt.
 (() => {
   const { CMS } = window;
   const API = 'https://api.languagetool.org/v2/check';
@@ -80,7 +74,7 @@
     overlay.setAttribute('aria-modal', 'true');
     const box = el('div', 'background:#fff;color:#111;max-width:560px;width:100%;max-height:85vh;overflow:auto;border-radius:8px;padding:20px;font-family:system-ui,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.4)');
     box.append(el('h2', 'margin:0 0 4px;font-size:1.2em', `Mögliche Tippfehler (${issues.length})`));
-    box.append(el('p', 'margin:0 0 12px;color:#555;font-size:.9em', 'Bitte prüfen. Namen und Mundart-Wörter können fälschlich markiert sein.'));
+    box.append(el('p', 'margin:0 0 12px;color:#555;font-size:.9em', 'Bitte Prüfen. Schweizerdeutsch kann falsch markiert sein.'));
     const list = el('ul', 'margin:0 0 16px;padding-left:20px');
     for (const issue of issues) {
       const li = el('li', 'margin-bottom:8px');

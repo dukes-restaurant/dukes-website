@@ -17,6 +17,13 @@ media_libraries:
     config:
       max_file_size: 5000000 # 5 MB
       slugify_filename: true # "Plakat Silvester.JPG" -> "plakat-silvester.jpg"
+      # Uploads werden im Browser verkleinert & komprimiert, bevor sie ins Repo kommen (schnelle Seite)
+      transformations:
+        raster_image:
+          format: webp
+          quality: 75
+          width: 1600 # max. Kantenlänge, Seitenverhältnis bleibt erhalten
+          height: 1600
 
 slug:
   encoding: ascii
