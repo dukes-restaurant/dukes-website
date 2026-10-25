@@ -7,8 +7,9 @@ on:
   push:
     branches: [main]
   schedule:
-    # Sonntag 20:00 Zürich (Winter-/Sommerzeit): Wochenmenü wechselt
-    - cron: '5 19 * * 0'
+    # Samstag 23:00 Zürich (Winter-/Sommerzeit): Wochenmenü wechselt.
+    # 21:05 UTC = 23:05 Sommerzeit, 22:05 UTC = 23:05 Winterzeit; der jeweils andere Lauf ist harmlos.
+    - cron: '5 21,22 * * 6'
   workflow_dispatch:
 
 permissions:

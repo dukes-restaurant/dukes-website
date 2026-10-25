@@ -8,8 +8,8 @@ function zurichTime(y: number, m: number, d: number, hour: number) {
   return guess - ((zurichHour - hour + 24) % 24) * 3600_000;
 }
 
-/** Ein Wochenmenü gilt ab Sonntag 20:00 (Zürich) vor seinem Montag bis zum Sonntag 20:00 danach. */
-export const menuStart = (from: Date) => zurichTime(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate() - 1, 20);
+/** Ein Wochenmenü gilt ab Samstag 23:00 (Zürich) vor seinem Montag bis zum Samstag 23:00 danach. */
+export const menuStart = (from: Date) => zurichTime(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate() - 2, 23);
 
 /** Aktuell gültiges Wochenmenü; undefined, wenn (noch) kein neueres vorhanden ist. */
 export async function getCurrentMenu() {
@@ -17,7 +17,7 @@ export async function getCurrentMenu() {
   const now = Date.now();
   const week = [...weeks].reverse().find((w) => menuStart(w.data.from) <= now);
   if (!week) return undefined;
-  const end = zurichTime(week.data.from.getUTCFullYear(), week.data.from.getUTCMonth(), week.data.from.getUTCDate() + 6, 20);
+  const end = zurichTime(week.data.from.getUTCFullYear(), week.data.from.getUTCMonth(), week.data.from.getUTCDate() + 5, 23);
   return now < end ? week : undefined;
 }
 
