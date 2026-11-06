@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import AreaCard from '../components/AreaCard.astro';
 import WeeklyMenu from '../components/WeeklyMenu.astro';
 import EventCard from '../components/EventCard.astro';
+import FlyerStrip from '../components/FlyerStrip.astro';
+import DanceCourses from '../components/DanceCourses.astro';
 import { getEvents } from '../lib/content';
 import { contact, bookingUrl } from '../data/nav';
 import { Image } from 'astro:assets';
@@ -43,6 +45,9 @@ const SHOW = 3;
     </div>
   </section>
 
+  <FlyerStrip />
+
+
   <section id="wochenmenu" class="scroll-mt-20 bg-cream">
     <div class="mx-auto max-w-7xl px-5 py-20">
 
@@ -72,6 +77,8 @@ const SHOW = 3;
     </div>
   </section>
 
+  <DanceCourses />
+<!-- 
   <section id="veranstaltungen" class="scroll-mt-20 border-t border-bark/10">
     <div class="mx-auto max-w-7xl px-5 py-20">
       <div class="flex flex-wrap items-end justify-between gap-4">
@@ -86,7 +93,7 @@ const SHOW = 3;
       </ul>
       <p id="no-events" class:list={['mt-8 text-bark/70', nextEvents.length && 'hidden']}>Aktuell sind keine Veranstaltungen geplant.</p>
     </div>
-  </section>
+  </section> -->
 
   <section id="lokal-mieten" class="scroll-mt-20 bg-sand">
     <div class="mx-auto grid max-w-7xl gap-8 px-5 py-16 md:grid-cols-2 md:items-center">

@@ -1,0 +1,53 @@
+---
+import { getEvents, isoDay } from '../lib/content';
+
+const SHOW = 3;
+const today = new Date(); today.setUTCHours(0, 0, 0, 0);
+const flyers = (await getEvents()).filter((e) => e.data.image && +e.data.date >= +today).slice(0, 30);
+const fmt = (d: Date) => d.toLocaleDateString('de-CH', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+---
+{flyers.length > 0 && (
+  <section id="flyer" aria-label="Nächste Veranstaltungen" class="bg-cream">
+    <div class="mx-auto max-w-5xl px-4 pt-12 sm:px-5 sm:pt-16">
+      <ul id="flyer-list" data-show={SHOW} class="grid grid-cols-3 gap-4 sm:grid-cols-[repeat(3,minmax(0,12rem))] sm:justify-center sm:gap-8 md:gap-16 lg:gap-24">
+        {flyers.map((e, i) => (
+          <li data-date={isoDay(e.data.date)} data-image={e.data.image} hidden={i >= SHOW}>
+            <a
+              href={e.data.image}
+              data-flyer={`Flyer ${e.data.title}`}
+              target="_blank"
+              rel="noopener"
+              class="group block focus-visible:outline-none"
+            >
+              <div class="aspect-[1/1.414] overflow-hidden rounded-lg bg-wood shadow-lg ring-rust ring-offset-2 ring-offset-cream transition duration-300 group-hover:-translate-y-1.5 group-hover:shadow-2xl group-focus-visible:ring-2">
+                <img src={e.data.image} alt={`Flyer ${e.data.title}`} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+              </div>
+              <p class="mt-2 text-xs font-semibold uppercase tracking-wider text-rust sm:text-sm">{fmt(e.data.date)}</p>
+              <p class="line-clamp-2 font-display text-sm leading-tight text-bark group-hover:text-rust sm:text-lg">{e.data.title}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 text-center sm:mt-8">
+        <a href="/veranstaltungen" class="font-semibold text-rust hover:underline">Alle Veranstaltungen →</a>
+      </p>
+    </div>
+  </section>
+)}
+
+<script>
+  const list = document.getElementById('flyer-list');
+  if (list) {
+    const show = Number(list.dataset.show);
+    const today = new Date().toISOString().slice(0, 10);
+    const seen = new Set<string>();
+    const items = [...list.querySelectorAll<HTMLElement>('li')];
+    const visible = items.filter((li) => {
+      if (li.dataset.date! < today || seen.has(li.dataset.image!)) return false;
+      seen.add(li.dataset.image!);
+      return true;
+    }).slice(0, show);
+    items.forEach((li) => (li.hidden = !visible.includes(li)));
+    if (!visible.length) list.closest('section')!.hidden = true;
+  }
+</script>
