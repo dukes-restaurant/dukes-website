@@ -33,9 +33,10 @@ export default defineConfig({
   // Alte Unterseiten zeigen auf die Abschnitte der Startseite
   // (zusätzlich als echte 301-Weiterleitung in public/_redirects)
   redirects: {
-    '/restaurant': '/#bereiche',
+    '/restaurant': '/#',
     '/wochenmenu': '/#wochenmenu',
     '/wochenmenue': '/#wochenmenu',
+    '/menu': '/#menus',
     '/lokal-mieten': '/#lokal-mieten',
     '/kontakt': '/#lokal-mieten',
     '/ueber-uns': '/',

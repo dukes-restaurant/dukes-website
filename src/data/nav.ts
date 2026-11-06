@@ -2,11 +2,9 @@
 // `match`: Pfad, auf dem der Eintrag zusätzlich hervorgehoben wird (Anker-Links sind sonst nie aktiv).
 export const nav: { label: string; href: string; match?: string }[] = [
   { label: 'START', href: '/#' },
-  // { label: 'RESTAURANT', href: '/#bereiche' },
   { label: 'WOCHENMENU', href: '/#wochenmenu' },
-  // { label: 'LOKAL MIETEN', href: '/#lokal-mieten' },
   { label: 'MENUS', href: '/#menus', match: '/menus' },
-  { label: 'VERANSTALTUNGEN', href: '/#veranstaltungen', match: '/veranstaltungen' },
+  { label: 'VERANSTALTUNGEN', href: '/veranstaltungen', match: '/veranstaltungen' },
 ];
 
 export const contact = {

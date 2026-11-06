@@ -22,9 +22,10 @@ const menus = [
 
 ];
 
-// Im Build die nächsten Events vorrendern; vergangene blendet das Script im Browser aus.
+// Im Build ALLE kommenden Events vorrendern (kein Limit, sonst läuft die Seite zwischen Deploys leer);
+// vergangene blendet das Script im Browser aus und zeigt nur die nächsten SHOW.
 const today = new Date(); today.setUTCHours(0, 0, 0, 0);
-const nextEvents = (await getEvents()).filter((e) => +e.data.date >= +today).slice(0, 6);
+const nextEvents = (await getEvents()).filter((e) => +e.data.date >= +today).slice(0,6);
 const SHOW = 3;
 ---
 <Layout>
@@ -53,9 +54,15 @@ const SHOW = 3;
     <div class="mx-auto max-w-7xl px-5 py-20">
       <p class="text-sm font-semibold uppercase tracking-[0.25em] text-rust">Speisekarten</p>
       <h2 class="mt-2 text-4xl sm:text-5xl">Unsere Menüs</h2>
-      <div class="mx-auto mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-6">
+
+      <div class="mx-auto mt-10 flex flex-wrap justify-center gap-4 sm:gap-6">
         {menus.map((m) => (
-          <a href={m.pdf} target="_blank" rel="noopener" class="group relative isolate block aspect-square overflow-hidden rounded-2xl bg-wood shadow-sm transition duration-300 hover:-translate-y-2.5 hover:shadow-2xl">
+          <a
+            href={m.pdf}
+            target="_blank"
+            rel="noopener"
+            class="group relative isolate block aspect-square w-[calc(50%-0.5rem)] overflow-hidden rounded-2xl bg-wood shadow-sm transition duration-300 hover:-translate-y-2.5 hover:shadow-2xl sm:w-[calc(33.333%-1rem)] lg:w-[calc(16.666%-1.25rem)]"
+          >
             <img src={m.img} alt="" loading="lazy" class="absolute inset-0 -z-10 h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
             <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent"></div>
             <span class="absolute inset-x-0 bottom-0 p-4 text-center font-display text-xl text-cream transition-colors duration-300 group-hover:text-gold sm:text-2xl">{m.title}</span>
@@ -106,6 +113,7 @@ const SHOW = 3;
   const today = new Date().toISOString().slice(0, 10);
   const items = [...list.querySelectorAll<HTMLElement>('[data-event]')];
   const upcoming = items.filter((li) => li.dataset.date! >= today);
+  console.log(upcoming)
   items.forEach((li) => (li.hidden = !upcoming.slice(0, show).includes(li)));
   if (!upcoming.length) document.getElementById('no-events')!.classList.remove('hidden');
 </script>
