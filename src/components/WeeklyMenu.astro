@@ -11,7 +11,7 @@ const box = (name: string, date: string, parts: [string, string][], price: strin
 const printData = menu && {
   title: `Wochenmenü ${menu.data.week}`,
   range: `${fmtDay(menu.data.from)} – ${fmtDay(menu.data.to)}${menu.data.note ? ` ${menu.data.note}` : ''}`,
-  daily: menu.data.daily.map((d, i) => box(d.day, dayDate(i), [['Suppe', d.soup ?? ''], ['Hauptgang', d.dish]], d.price ?? menu.data.menu1Price ?? '')),
+  daily: menu.data.daily.map((d, i) => box(d.day, dayDate(i), [['Suppe', d.soup ?? ''], ['Hauptgang', d.dish]], d.price || menu.data.menu1Price || '')),
   week: [...menu.data.menus, ...menu.data.specials].map((m) => box(`${m.name}${m.tag ? ` (${m.tag})` : ''}`, '', [['Hauptgang', `${m.dish}${m.description ? ` – ${m.description}` : ''}`]], m.price)),
 };
 ---
@@ -35,7 +35,7 @@ const printData = menu && {
           {d.soup && <p class="mt-2 text-sm text-bark">{d.soup}</p>} 
           {/* italic */}
           <p class="mt-2 font-semibold leading-snug">{d.dish}</p>
-          {(d.price ?? menu.data.menu1Price) && <p class="mt-auto pt-3 font-semibold">{d.price ?? menu.data.menu1Price}</p>}
+          {(d.price || menu.data.menu1Price) && <p class="mt-auto pt-3 font-semibold">{d.price || menu.data.menu1Price}</p>}
         </article>
       ))}
     </div>

@@ -89,7 +89,7 @@ collections:
       - { name: from, label: "Montag (Start)", widget: swissdate }
       - { name: to, label: "Freitag (Ende)", widget: swissdate }
       - { name: note, label: Hinweis, widget: string, default: "Vorspeise inklusive Salat oder Suppe" }
-      - { name: menu1Price, label: "Menü 1 – Standardpreis", widget: string, required: false, hint: "z.B. CHF 21.00" }
+      - { name: menu1Price, label: "Menü 1 – Standardpreis", widget: string, required: false, default: "21.00", hint: "Standard 21.00 – gilt für alle Tage ohne eigenen Preis" }
       - name: daily
         label: "Menü 1 (täglich)"
         label_singular: Tag
