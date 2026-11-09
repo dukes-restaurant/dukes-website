@@ -6,7 +6,8 @@ import { getEvents } from '../lib/content';
 
 const events = await getEvents();
 const PAGE_SIZE = 6; // so viele werden angezeigt, Rest per "Mehr anzeigen"
-const months = [...new Set(events.map((e) => e.data.date.toISOString().slice(0, 7)))];
+const currentMonth = new Date().toISOString().slice(0, 7);
+const months = [...new Set(events.map((e) => e.data.date.toISOString().slice(0, 7)))].filter((m) => m >= currentMonth);
 const monthLabel = (m: string) => new Date(`${m}-01T00:00:00Z`).toLocaleDateString('de-CH', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const input = 'w-full normal-case tracking-normal font-normal text-bark rounded-xl border border-bark/20 bg-white px-3 py-2 text-sm focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40';
 ---
@@ -55,20 +56,16 @@ const input = 'w-full normal-case tracking-normal font-normal text-bark rounded-
   const empty = document.getElementById('empty')!;
   const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement;
   const q = field('q'), month = field('month');
-  // const from = field('from'), to = field('to');
-  // const today = new Date().toISOString().slice(0, 10);
+  const today = new Date().toISOString().slice(0, 10);
   let limit = PAGE_SIZE;
-
-  // from.value = today;
 
   function apply() {
     const words = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const matches = items.filter((li) => {
       const d = li.dataset.date!;
+      if (d < today) return false;
       if (!words.every((w) => li.dataset.search!.includes(w))) return false;
       if (month.value && !d.startsWith(month.value)) return false;
-      // if (from.value && d < from.value) return false;
-      // if (to.value && d > to.value) return false;
       return true;
     });
     items.forEach((li) => (li.hidden = true));
