@@ -22,7 +22,7 @@ const fmt = (d: Date) => d.toLocaleDateString('de-CH', { weekday: 'short', day: 
               <div class="aspect-[1/1.414] overflow-hidden rounded-lg bg-wood shadow-lg ring-rust ring-offset-2 ring-offset-cream transition duration-300 group-hover:-translate-y-1.5 group-hover:shadow-2xl group-focus-visible:ring-2">
                 <img src={e.data.image} alt={`Flyer ${e.data.title}`} loading="lazy" decoding="async" class="h-full w-full object-cover" />
               </div>
-              <p class="mt-2 text-xs font-semibold uppercase tracking-wider text-rust sm:text-sm">{fmt(e.data.date)}</p>
+              <p class="mt-2 text-xs font-semibold uppercase text-rust sm:text-sm">{fmt(e.data.date)}</p>
               <p class="line-clamp-2 font-display text-sm leading-tight text-bark group-hover:text-rust sm:text-lg">{e.data.title}</p>
             </a>
           </li>
