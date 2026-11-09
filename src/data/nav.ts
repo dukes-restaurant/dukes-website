@@ -5,6 +5,7 @@ export const nav: { label: string; href: string; match?: string }[] = [
   { label: 'WOCHENMENU', href: '/#wochenmenu' },
   { label: 'MENUS', href: '/#menus', match: '/menus' },
   { label: 'VERANSTALTUNGEN', href: '/veranstaltungen', match: '/veranstaltungen' },
+  { label: 'IMPRESSUM', href: '/impressum', match: '/impressum' },
 ];
 
 export const contact = {
