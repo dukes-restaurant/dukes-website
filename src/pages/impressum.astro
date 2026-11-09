@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { contact } from '../data/nav';
+
+// Datum der letzten inhaltlichen Änderung der Datenschutzerklärung
+const stand = 'November 2026';
+const h2 = 'mt-12 text-3xl first:mt-0';
+const h3 = 'mt-6 text-xl';
+const p = 'mt-3 text-bark/85';
+---
+<Layout title="Impressum & Datenschutz – dukes" description="Impressum und Datenschutzerklärung der dukes GmbH, Sihlbrugg.">
+  <PageHeader eyebrow="Rechtliches" title="Impressum & Datenschutz" />
+  <section class="mx-auto max-w-3xl px-5 py-12">
+    <nav class="flex flex-wrap gap-3 text-sm font-semibold" aria-label="Inhalt">
+      <a href="#impressum" class="rounded-full border border-bark/20 px-4 py-1.5 hover:border-rust hover:text-rust">Impressum</a>
+      <a href="#datenschutz" class="rounded-full border border-bark/20 px-4 py-1.5 hover:border-rust hover:text-rust">Datenschutz</a>
+    </nav>
+
+    <div id="impressum" class="mt-10 scroll-mt-24">
+      <h2 class={h2}>Impressum</h2>
+      <address class={`${p} not-italic`}>
+        <strong>{contact.company}</strong><br />
+        {contact.street}<br />
+        {contact.city}<br />
+        Schweiz
+      </address>
+      <p class={p}>
+        Telefon <a class="underline underline-offset-4 hover:text-rust" href={contact.phoneHref}>{contact.phone}</a><br />
+        E-Mail <a class="underline underline-offset-4 hover:text-rust" href={`mailto:${contact.email}`}>{contact.email}</a>
+      </p>
+      <p class={p}>
+        <!-- TODO: Vertretungsberechtigte Person(en) ergänzen --><br />
+        <!-- TODO: UID-Nummer ergänzen (CHE-xxx.xxx.xxx) --><br />
+        <!-- TODO: Handelsregistereintrag ergänzen -->
+      </p>
+
+      <h3 class={h3}>Haftungsausschluss</h3>
+      <p class={p}>Wir prüfen die Inhalte dieser Website sorgfältig, übernehmen aber keine Gewähr für Richtigkeit, Vollständigkeit und Aktualität. Angaben zu Menüs, Preisen, Öffnungszeiten und Veranstaltungen können sich kurzfristig ändern; verbindlich sind die Angaben vor Ort.</p>
+      <p class={p}>Für Inhalte externer Websites, auf die wir verlinken, sind ausschliesslich deren Betreiber verantwortlich.</p>
+
+      <h3 class={h3}>Urheberrechte</h3>
+      <p class={p}>Texte, Fotos, Logos und Flyer auf dieser Website gehören der {contact.company} oder den jeweiligen Rechteinhabern. Eine Verwendung ist nur mit vorheriger schriftlicher Zustimmung erlaubt.</p>
+    </div>
+
+    <div id="datenschutz" class="mt-16 scroll-mt-24 border-t border-bark/10 pt-12">
+      <h2 class={h2}>Datenschutzerklärung</h2>
+      <p class={p}>In dieser Datenschutzerklärung informieren wir darüber, welche Personendaten wir beim Besuch dieser Website und bei einer Kontaktaufnahme bearbeiten. Massgebend ist das Schweizer Datenschutzgesetz (DSG).</p>
+
+      <h3 class={h3}>Verantwortliche Stelle</h3>
+      <p class={p}>{contact.company}, {contact.street}, {contact.city}<br />
+        E-Mail <a class="underline underline-offset-4 hover:text-rust" href={`mailto:${contact.email}`}>{contact.email}</a></p>
+
+      <h3 class={h3}>Besuch der Website</h3>
+      <p class={p}>Beim Aufruf dieser Website speichert der Server unseres Hosting-Anbieters automatisch technische Angaben in Protokolldateien: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browser und Betriebssystem. Diese Daten brauchen wir, um die Website sicher und stabil zu betreiben. Sie werden nicht mit anderen Daten zusammengeführt und nach kurzer Zeit gelöscht.</p>
+      <!-- TODO: Hosting-Anbieter ergänzen (Name und Sitz, z. B. Netlify, Inc., USA). Liegt der Serverstandort ausserhalb der Schweiz, Standardvertragsklauseln erwähnen. -->
+      <p class={p}>Der Serverstandort kann ausserhalb der Schweiz liegen; die Übermittlung erfolgt gestützt auf die vom Bundesrat anerkannten Garantien bzw. Standardvertragsklauseln.</p>
+
+      <h3 class={h3}>Keine Cookies, kein Tracking</h3>
+      <p class={p}>Diese Website setzt keine Cookies und verwendet keine Analyse- oder Werbedienste. Schriften und Bilder werden direkt von unserem Server geladen; es werden keine Inhalte von Drittanbietern eingebunden.</p>
+
+      <h3 class={h3}>Kontakt und Reservationen</h3>
+      <p class={p}>Wenn Sie uns per E-Mail oder Telefon kontaktieren, bearbeiten wir Ihre Angaben (z. B. Name, Kontaktdaten, Datum und Personenzahl einer Reservation oder Anfrage) nur, um Ihr Anliegen zu beantworten und abzuwickeln. Wir bewahren diese Daten nur so lange auf, wie es dafür nötig ist oder gesetzliche Aufbewahrungspflichten es verlangen.</p>
+
+      <h3 class={h3}>Links zu anderen Websites</h3>
+      <p class={p}>Unsere Website enthält Links zu Google Maps, Facebook und Instagram. Erst wenn Sie einen solchen Link anklicken, werden Sie auf die Website des jeweiligen Anbieters weitergeleitet; ab dann gelten dessen Datenschutzbestimmungen.</p>
+
+      <h3 class={h3}>Weitergabe von Daten</h3>
+      <p class={p}>Wir verkaufen keine Personendaten und geben sie nur weiter, wenn dies für die Erbringung unserer Leistungen nötig ist (z. B. an unseren Hosting-Anbieter) oder wir gesetzlich dazu verpflichtet sind.</p>
+
+      <h3 class={h3}>Ihre Rechte</h3>
+      <p class={p}>Sie können jederzeit Auskunft über Ihre bei uns gespeicherten Personendaten verlangen sowie deren Berichtigung oder Löschung beantragen. Wenden Sie sich dazu an <a class="underline underline-offset-4 hover:text-rust" href={`mailto:${contact.email}`}>{contact.email}</a>. Zudem können Sie sich beim Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) beschweren.</p>
+
+      <h3 class={h3}>Änderungen</h3>
+      <p class={p}>Wir können diese Datenschutzerklärung anpassen. Es gilt die jeweils auf dieser Seite veröffentlichte Fassung.</p>
+      <p class="mt-6 text-sm text-bark/60">Stand: {stand}</p>
+    </div>
+  </section>
+</Layout>
