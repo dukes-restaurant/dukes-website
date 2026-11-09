@@ -10,14 +10,14 @@ const card = 'aspect-[1/1.414] overflow-hidden rounded-lg bg-wood shadow-lg ring
 ---
 <section id="tanzkurse" aria-labelledby="tanzkurse-title" class="scroll-mt-20 bg-cream border-t border-bark/10">
   <div class="mx-auto max-w-7xl px-5 py-20">
-    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-rust">Kurse &amp; Workshops</p>
+    <p class="text-sm font-semibold uppercase tracking-[0.15em] text-rust">Kurse &amp; Workshops</p>
     <h2 class="mt-2 text-4xl sm:text-5xl">Tanzkurse</h2>
 
     <ul class="mt-8 flex flex-wrap justify-center gap-4 sm:gap-8 md:gap-16 lg:gap-24">
       {courses.map((c) => {
         const text = (
           <>
-            <p class="mt-2 whitespace-pre-line text-xs font-semibold uppercase tracking-wider text-rust sm:text-sm">{c.when}</p>
+            <p class="mt-2 whitespace-pre-line text-xs font-semibold uppercase text-rust sm:text-sm">{c.when}</p>
             <p class="line-clamp-2 whitespace-pre-line font-display text-sm leading-tight text-bark group-hover:text-rust sm:text-lg text-break">{c.title}</p>
             <p class="whitespace-pre-line text-xs text-bark/70 sm:text-sm">{c.area}</p>
             {c.price && <p class="whitespace-pre-line text-xs text-bark/70 sm:text-sm text-break">{c.price}</p>}
