@@ -6,15 +6,16 @@ import { getEvents } from '../lib/content';
 
 const events = await getEvents();
 const PAGE_SIZE = 6; // so viele werden angezeigt, Rest per "Mehr anzeigen"
-const months = [...new Set(events.map((e) => e.data.date.toISOString().slice(0, 7)))];
+const currentMonth = new Date().toISOString().slice(0, 7);
+const months = [...new Set(events.map((e) => e.data.date.toISOString().slice(0, 7)))].filter((m) => m >= currentMonth);
 const monthLabel = (m: string) => new Date(`${m}-01T00:00:00Z`).toLocaleDateString('de-CH', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const input = 'w-full normal-case tracking-normal font-normal text-bark rounded-xl border border-bark/20 bg-white px-3 py-2 text-sm focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40';
 ---
 <Layout title="Veranstaltungen – dukes">
   <PageHeader eyebrow="Was läuft" title="Veranstaltungen" intro="Partys, Kurse und Live-Musik im Eventsaal und im Dukes Club." />
   <section class="mx-auto max-w-4xl px-5 py-12">
-    <form id="filter" class="grid gap-3 rounded-2xl bg-white/70 p-4 shadow-sm ring-1 ring-bark/10 sm:grid-cols-2 lg:grid-cols-4">
-      <label class="text-xs font-semibold uppercase tracking-widest text-bark/70 sm:col-span-2 lg:col-span-4">Suche
+    <form id="filter" class="grid gap-3 rounded-2xl bg-white/70 p-4 shadow-sm ring-1 ring-bark/10 sm:grid-cols-2">
+      <label class="text-xs font-semibold uppercase tracking-widest text-bark/70 sm:col-span-2">Suche
         <input name="q" type="search" placeholder="z.B. Party, Tanzkurs, Club …" class={`${input} mt-1`} />
       </label>
       <label class="text-xs font-semibold uppercase tracking-widest text-bark/70">Monat
@@ -23,12 +24,12 @@ const input = 'w-full normal-case tracking-normal font-normal text-bark rounded-
           {months.map((m) => <option value={m}>{monthLabel(m)}</option>)}
         </select>
       </label>
-      <label class="text-xs font-semibold uppercase tracking-widest text-bark/70">Von
+      <!-- <label class="text-xs font-semibold uppercase tracking-widest text-bark/70">Von
         <input name="from" type="date" class={`${input} mt-1`} />
       </label>
       <label class="text-xs font-semibold uppercase tracking-widest text-bark/70">Bis
         <input name="to" type="date" class={`${input} mt-1`} />
-      </label>
+      </label> -->
       <div class="flex items-end">
         <button type="reset" class="w-full rounded-xl border border-bark/20 px-3 py-2 text-sm font-semibold hover:border-rust hover:text-rust">Zurücksetzen</button>
       </div>
@@ -54,21 +55,17 @@ const input = 'w-full normal-case tracking-normal font-normal text-bark rounded-
   const count = document.getElementById('count')!;
   const empty = document.getElementById('empty')!;
   const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement;
-  const q = field('q'), month = field('month'), from = field('from'), to = field('to');
+  const q = field('q'), month = field('month');
   const today = new Date().toISOString().slice(0, 10);
   let limit = PAGE_SIZE;
-
-  // Standard: ab heute (vergangene Events über "Von" oder Monat sichtbar machen)
-  from.value = today;
 
   function apply() {
     const words = q.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const matches = items.filter((li) => {
       const d = li.dataset.date!;
+      if (d < today) return false;
       if (!words.every((w) => li.dataset.search!.includes(w))) return false;
       if (month.value && !d.startsWith(month.value)) return false;
-      if (from.value && d < from.value) return false;
-      if (to.value && d > to.value) return false;
       return true;
     });
     items.forEach((li) => (li.hidden = true));
@@ -78,14 +75,13 @@ const input = 'w-full normal-case tracking-normal font-normal text-bark rounded-
     count.textContent = `${matches.length} Veranstaltung${matches.length === 1 ? '' : 'en'}`;
   }
 
-  // Monatswahl setzt den Datumsbereich zurück, damit sich die Filter nicht widersprechen
-  month.addEventListener('change', () => { from.value = ''; to.value = ''; });
-  from.addEventListener('change', () => (month.value = ''));
-  to.addEventListener('change', () => (month.value = ''));
+  // month.addEventListener('change', () => { from.value = ''; to.value = ''; });
+  // from.addEventListener('change', () => (month.value = ''));
+  // to.addEventListener('change', () => (month.value = ''));
   form.addEventListener('submit', (e) => e.preventDefault());
   form.addEventListener('input', () => { limit = PAGE_SIZE; apply(); });
   form.addEventListener('change', () => { limit = PAGE_SIZE; apply(); });
-  form.addEventListener('reset', () => setTimeout(() => { from.value = today; limit = PAGE_SIZE; apply(); }));
+  form.addEventListener('reset', () => setTimeout(() => { /* from.value = today; */ limit = PAGE_SIZE; apply(); }));
   more.addEventListener('click', () => { limit += PAGE_SIZE; apply(); });
   apply();
 </script>
