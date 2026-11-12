@@ -9,6 +9,7 @@ import ReservationDialog from '../components/ReservationDialog.astro';
 import FlyerDialog from '../components/FlyerDialog.astro';
 interface Props { title?: string; description?: string }
 const { title = 'Dukes Restaurant', description = 'Restaurant, Saloon, Eventsaal und Club in Sihlbrugg – dukes Restaurant, Dukes Club.' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://dukes.ch').href;
 ---
 <!doctype html>
 <html lang="de-CH">
@@ -16,6 +17,7 @@ const { title = 'Dukes Restaurant', description = 'Restaurant, Saloon, Eventsaal
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="google-site-verification" content="ixUQuN_uvhk3ghuIcupFaqbbxbRZ6_0Ven5k1tMvs3Q" />
     <title>{title}</title>
