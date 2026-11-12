@@ -16,3 +16,28 @@
 /wp-content/*      /404.html  410!
 /wp-includes/*     /404.html  410!
 /xmlrpc.php        /404.html  410!
+
+# --- Alte WordPress-URLs (aus Crawler-404-Log, Nov 2026) ---
+# Eventliste/Typo -> aktuelle Veranstaltungsseite
+/events            /veranstaltungen/  301!
+/events/           /veranstaltungen/  301!
+/veranstalungen    /veranstaltungen/  301!
+/veranstalungen/   /veranstaltungen/  301!
+# Einzelne alte Events, Flyer-Anhangsseiten, Kategorien: dauerhaft weg (410, Google entfernt schneller als bei 404)
+/events/*          /404.html  410
+/mec-category/*    /404.html  410
+/dukes/*           /404.html  410
+/dukes-restaurant  /404.html  410
+/dukes-restaurant/ /404.html  410
+/veranstaltungen/*/ /404.html 410
+# Alte Menü-PDFs -> Menüseite
+/restaurant/media/*  /menu/  301
+/restaurant/*      /404.html  410
+/lokal-mieten/*    /404.html  410
+/kontakt/*         /404.html  410
+# WordPress-Reste
+/index.php         /          301!
+/feed              /404.html  410!
+/feed/             /404.html  410!
+/comments/feed/    /404.html  410!
+/.well-known/apple-app-site-association /404.html 410
