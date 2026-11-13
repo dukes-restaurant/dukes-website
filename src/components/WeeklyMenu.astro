@@ -1,23 +1,28 @@
 ---
-import { getCurrentMenu, fmtDay } from '../lib/content';
-const menu = await getCurrentMenu();
-const dayDate = (i: number) => {
-  const d = new Date(menu!.data.from);
-  d.setUTCDate(d.getUTCDate() + i);
-  return fmtDay(d);
-};
+import { getRecentMenus, menuStart, menuEnd, pickMenuIndex, weekLabel, fmtDay } from '../lib/content';
+const menus = await getRecentMenus();
+const windows = menus.map((m) => ({ start: menuStart(m.data.from), end: menuEnd(m.data.from) }));
+const initial = pickMenuIndex(windows, Date.now()); // Ausgangszustand (ohne JavaScript); der Browser korrigiert ihn beim Laden
 
 const box = (name: string, date: string, parts: [string, string][], price: string) => ({ name, date, parts, price });
-const printData = menu && {
-  title: `Wochenmenü ${menu.data.week}`,
-  range: `${fmtDay(menu.data.from)} – ${fmtDay(menu.data.to)}${menu.data.note ? ` ${menu.data.note}` : ''}`,
-  daily: menu.data.daily.map((d, i) => box(d.day, dayDate(i), [['Suppe', d.soup ?? ''], ['Hauptgang', d.dish]], d.price || menu.data.menu1Price || '')),
-  week: [...menu.data.menus, ...menu.data.specials].map((m) => box(`${m.name}${m.tag ? ` (${m.tag})` : ''}`, '', [['Hauptgang', `${m.dish}${m.description ? ` – ${m.description}` : ''}`]], m.price)),
+const prep = (menu: (typeof menus)[number]) => {
+  const dayDate = (i: number) => {
+    const d = new Date(menu.data.from);
+    d.setUTCDate(d.getUTCDate() + i);
+    return fmtDay(d);
+  };
+  const printData = {
+    title: `Wochenmenü ${weekLabel(menu.data.week)}`,
+    range: `${fmtDay(menu.data.from)} – ${fmtDay(menu.data.to)}${menu.data.note ? ` ${menu.data.note}` : ''}`,
+    daily: menu.data.daily.map((d, i) => box(d.day, dayDate(i), [['Suppe', d.soup ?? ''], ['Hauptgang', d.dish]], d.price || menu.data.menu1Price || '')),
+    week: [...menu.data.menus, ...menu.data.specials].map((m) => box(`${m.name}${m.tag ? ` (${m.tag})` : ''}`, '', [['Hauptgang', `${m.dish}${m.description ? ` – ${m.description}` : ''}`]], m.price)),
+  };
+  return { dayDate, printData };
 };
 ---
-{menu ? (
-  <div>
-    <p class="text-sm font-semibold uppercase tracking-[0.15em] text-rust">{menu.data.week} - {fmtDay(menu.data.from)} – {fmtDay(menu.data.to)}</p>
+{menus.length ? menus.map((menu, mi) => { const { dayDate, printData } = prep(menu); return (
+  <div data-menu-week data-start={windows[mi].start} data-end={windows[mi].end} hidden={mi !== initial}>
+    <p class="text-sm font-semibold uppercase tracking-[0.15em] text-rust">{weekLabel(menu.data.week)} - {fmtDay(menu.data.from)} – {fmtDay(menu.data.to)}</p>
     <h2 class="mt-2 text-4xl sm:text-5xl">Wochenmenü</h2>
     <p class="mt-2 text-lg font-semibold">Menu inklusive Salat oder Suppe</p>
 
@@ -58,9 +63,9 @@ const printData = menu && {
       </div>
     ))}
     <p class="mt-4 text-sm text-bark/70">Informationen zu Allergenen und Unverträglichkeiten erhalten Sie bei unserem Personal.</p>
-    <button type="button" id="print-menu" data-menu={JSON.stringify(printData)} class="mt-4 rounded-full bg-rust px-5 py-2 text-sm font-semibold text-white hover:opacity-90">Wochenmenü drucken</button>
+    <button type="button" data-print-menu data-menu={JSON.stringify(printData)} class="mt-4 rounded-full bg-rust px-5 py-2 text-sm font-semibold text-white hover:opacity-90">Wochenmenü drucken</button>
   </div>
-) : (
+); }) : (
   <div>
     <h2 class="mt-2 text-4xl sm:text-5xl">Wochenmenü</h2>
     <p class="mt-2 text-lg font-semibold">Menu inlcusive Salat oder Suppe</p>
@@ -119,6 +124,17 @@ const printData = menu && {
     window.print();
   };
 
-  const btn = document.getElementById('print-menu');
-  btn?.addEventListener('click', () => printMenu(JSON.parse(btn.dataset.menu!)));
+  document.querySelectorAll<HTMLElement>('[data-print-menu]').forEach((btn) =>
+    btn.addEventListener('click', () => printMenu(JSON.parse(btn.dataset.menu!))));
+
+  // Passende Woche nach aktueller Zeit anzeigen (Seite ist statisch gebaut): aktuelles Fenster, sonst neueste begonnene, sonst früheste.
+  const weeks = [...document.querySelectorAll<HTMLElement>('[data-menu-week]')]; // neueste zuerst
+  if (weeks.length) {
+    const now = Date.now();
+    const win = weeks.map((w) => ({ start: Number(w.dataset.start), end: Number(w.dataset.end) }));
+    let i = win.findIndex((w) => w.start <= now && now < w.end);
+    if (i < 0) i = win.findIndex((w) => w.start <= now);
+    if (i < 0) i = weeks.length - 1;
+    weeks.forEach((w, k) => (w.hidden = k !== i));
+  }
 </script>

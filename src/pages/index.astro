@@ -35,21 +35,22 @@ const restaurantLd = {
   '@type': 'Restaurant',
   '@id': 'https://dukes.ch/#restaurant',
   name: 'Dukes Restaurant',
-  legalName: 'dukes GmbH',
+  legalName: contact.company,
   url: 'https://dukes.ch/',
   image: 'https://dukes.ch/images/bar_compressed.jpeg',
   logo: 'https://dukes.ch/favicon.png',
   description: 'Restaurant, Saloon, Eventsaal und Club in Sihlbrugg: Mittagsmenü, Steaks, Tanzparties, Tanzkurse und Lokale zur Miete.',
-  telephone: '+41 43 244 40 40',
+  telephone: contact.phone,
   email: contact.email,
   address: { '@type': 'PostalAddress', streetAddress: contact.street, postalCode: '8816', addressLocality: 'Hirzel', addressRegion: 'ZH', addressCountry: 'CH' },
   hasMap: contact.maps,
-  hasMenu: 'https://dukes.ch/#menus',
-  servesCuisine: ['Schweizer Küche', 'Steak'],
+  hasMenu: ["https://dukes.ch/menus/abend.pdf"],
+  // servesCuisine: ['Schweizer Küche', 'Steak'],
   acceptsReservations: true,
   sameAs: [contact.facebook, contact.instagram],
   openingHoursSpecification: [
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '14:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '18:00', closes: '02:00' },
   ],
 };
 ---
@@ -69,13 +70,6 @@ const restaurantLd = {
       <p><strong class="text-gold">Restaurant</strong> MO–FR 08:00–14:00 · MI–SA ab 18:00</p>
       <p><strong class="text-gold">Club</strong> MI–SO ab 20:00</p>
       <p><strong class="text-gold">Reservation</strong> <a href={contact.phoneHref} class="hover:text-gold">{contact.phone}</a></p>
-    </div>
-  </section>
-
-  <section class="bg-cream">
-    <div class="mx-auto max-w-3xl px-5 pt-14 text-center">
-      <h2 class="text-3xl sm:text-4xl">Restaurant, Saloon &amp; Club in Sihlbrugg</h2>
-      <p class="mt-4 text-bark/80">Das Dukes in Sihlbrugg bei Hirzel (ZH) ist Restaurant, Partylokal und Eventlokation in einem: Unter der Woche gibt es das Mittagsmenü, am Abend Steaks und Klassiker – im Saloon, im Wintergarten oder auf der Terrasse. Im Dukes Club und im Eventsaal sind Tanzparties, Tanzkurse und Live-Musik zu Hause. Eventsaal, Club, Saloon und Wintergarten können auch gemietet werden.</p>
     </div>
   </section>
 
