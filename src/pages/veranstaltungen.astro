@@ -3,15 +3,43 @@ import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import EventCard from '../components/EventCard.astro';
 import { getEvents } from '../lib/content';
+import { contact } from '../data/nav';
 
 const events = await getEvents();
 const PAGE_SIZE = 6; // so viele werden angezeigt, Rest per "Mehr anzeigen"
 const currentMonth = new Date().toISOString().slice(0, 7);
 const months = [...new Set(events.map((e) => e.data.date.toISOString().slice(0, 7)))].filter((m) => m >= currentMonth);
 const monthLabel = (m: string) => new Date(`${m}-01T00:00:00Z`).toLocaleDateString('de-CH', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const todayIso = new Date().toISOString().slice(0, 10);
+const place = {
+  '@type': 'Place',
+  name: 'Dukes Restaurant',
+  address: { '@type': 'PostalAddress', streetAddress: contact.street, postalCode: '8816', addressLocality: 'Hirzel', addressRegion: 'ZH', addressCountry: 'CH' },
+};
+const eventsLd = events
+  .filter((e) => e.data.date.toISOString().slice(0, 10) >= todayIso)
+  .map((e) => {
+    const day = e.data.date.toISOString().slice(0, 10);
+    const time = e.data.time?.replace('.', ':').padStart(5, '0');
+    return {
+      '@type': 'Event',
+      name: e.data.title,
+      startDate: time ? `${day}T${time}` : day,
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: { ...place, name: `Dukes Restaurant – ${e.data.area}` },
+      ...(e.data.image ? { image: new URL(e.data.image, 'https://dukes.ch').href } : {}),
+      organizer: { '@type': 'Organization', name: 'dukes GmbH', url: 'https://dukes.ch/' },
+    };
+  });
+const jsonLd = [{ '@context': 'https://schema.org', '@graph': eventsLd }];
 const input = 'w-full normal-case tracking-normal font-normal text-bark rounded-xl border border-bark/20 bg-white px-3 py-2 text-sm focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40';
 ---
-<Layout title="Veranstaltungen – dukes">
+<Layout
+  title="Veranstaltungen & Tanzparties – Dukes Sihlbrugg"
+  description="Partys, Tanzkurse und Live-Musik im Dukes Eventsaal und Club in Sihlbrugg: Line Dance, Salsa, Ländler, Oldies Night, Schlagernacht – alle kommenden Termine."
+  jsonLd={eventsLd.length ? jsonLd : []}
+>
   <PageHeader eyebrow="Was läuft" title="Veranstaltungen" intro="Partys, Kurse und Live-Musik im Eventsaal und im Dukes Club." />
   <section class="mx-auto max-w-4xl px-5 py-12">
     <form id="filter" class="grid gap-3 rounded-2xl bg-white/70 p-4 shadow-sm ring-1 ring-bark/10 sm:grid-cols-2">

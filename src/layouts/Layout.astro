@@ -7,8 +7,16 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import ReservationDialog from '../components/ReservationDialog.astro';
 import FlyerDialog from '../components/FlyerDialog.astro';
-interface Props { title?: string; description?: string }
-const { title = 'Dukes Restaurant', description = 'Restaurant, Saloon, Eventsaal und Club in Sihlbrugg – dukes Restaurant, Dukes Club.' } = Astro.props;
+interface Props { title?: string; description?: string; image?: string; noindex?: boolean; jsonLd?: object[] }
+const {
+  title = 'Dukes Restaurant Sihlbrugg – Steak, Saloon & Club',
+  description = 'Restaurant, Saloon, Eventsaal und Club in Sihlbrugg (Hirzel ZH): Mittagsmenü, Steaks, Tanzparties und Tanzkurse. Lokal mieten. Reservation 043 244 40 40.',
+  image = '/images/bar_compressed.jpeg',
+  noindex = false,
+  jsonLd = [],
+} = Astro.props;
+const site = Astro.site ?? new URL('https://dukes.ch');
+const ogImage = new URL(image, site).href;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://dukes.ch').href;
 ---
 <!doctype html>
@@ -18,6 +26,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://dukes.ch').
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dukes Restaurant" />
+    <meta property="og:locale" content="de_CH" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="google-site-verification" content="ixUQuN_uvhk3ghuIcupFaqbbxbRZ6_0Ven5k1tMvs3Q" />
     <title>{title}</title>
