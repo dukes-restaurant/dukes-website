@@ -79,23 +79,28 @@ const prep = (menu: (typeof menus)[number]) => {
   @media print {
     @page { size: A4 landscape; margin: 0cm; }
     body.printing-menu > *:not(#print-root) { display: none !important; }
-    body.printing-menu { background: #fff !important; margin: 0; padding: 1.5cm; }
-    body.printing-menu #print-root { display: block; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; }
+    body.printing-menu { background: #fff !important; margin: 0; padding: 0.8cm 1.5cm 0.6cm; }
+    /* min-height = A4-Höhe (21cm) minus Seitenränder, damit der Allergene-Hinweis unten auf der Seite steht */
+    body.printing-menu #print-root { display: flex; flex-direction: column; min-height: 19.4cm; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #333; }
     #print-root * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
-    #print-root h1 { font-size: 1.5rem; color: #2c3e50; margin: 0 0 0.5rem; }
-    #print-root p { font-size: 0.9rem; color: #7f8c8d; margin: 0 0 1.5rem; }
-    #print-root h2 { font-size: 1.5rem; color: #2c3e50; margin: 1.5rem 0 0.8rem; text-align: center; }
-    #print-root .menu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 1.5rem; align-items: stretch; }
+    #print-root .print-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 1rem; margin-bottom: 0.2rem; }
+    #print-root h1 { font-size: 1.35rem; color: #2c3e50; margin: 0; }
+    #print-root p { font-size: 0.9rem; color: #000; margin: 0; }
+    #print-root .allergens { margin-top: auto; padding-top: 0.5rem; font-size: 0.8rem; text-align: center; }
+    #print-root h2 { font-size: 1.5rem; color: #2c3e50; margin: 0.6rem 0 0.6rem; text-align: center; }
+    #print-root h2:first-of-type { margin-top: 0; }
+    #print-root .menu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 0; align-items: stretch; }
     #print-root .menu-flex-center { display: flex; justify-content: center; gap: 15px; margin-bottom: 1.5rem; align-items: stretch; }
     #print-root .menu-flex-center .menu-box { width: calc((100% - 60px) / 5); }
     #print-root .menu-box { border: 1px solid #dcdde1; border-radius: 2px; display: flex; flex-direction: column; background: #fff; overflow: hidden; break-inside: avoid; }
     #print-root .box-header { background: #f1f3f5; padding: 12px 10px; justify-content: center; align-items: center; gap: 10px; display: flex; border-bottom: 2px solid #e2e6ea; }
     #print-root .day-name { font-weight: 700; font-size: 1.1rem; color: #2c3e50; }
-    #print-root .date { font-size: 0.85rem; color: #545757; margin-top: 2px; }
-    #print-root .box-content { padding: 12px 10px; flex-grow: 1; }
-    #print-root .dish-label { font-size: 0.75rem; text-transform: uppercase; color: #95a5a6; font-weight: 600; letter-spacing: 0.5px; margin-top: 8px; }
+    #print-root .date { font-size: 0.85rem; color: #3d4040; margin-top: 2px; }
+    #print-root .box-content { padding: 12px 10px 6px; flex-grow: 1; }
+    #print-root .dish-label { font-size: 0.75rem; text-transform: uppercase; color: #6c7a7b; font-weight: 600; letter-spacing: 0.5px; margin-top: 8px; }
     #print-root .dish-label:first-child { margin-top: 0; }
     #print-root .dish-text { font-size: 0.95rem; color: #2f3640; margin-top: 2px; margin-bottom: 8px; }
+    #print-root .dish-text:last-child { margin-bottom: 0; }
     #print-root .box-price { padding: 10px; background: #f8f9fa; text-align: center; font-weight: 700; color: #2c3e50; border-top: 1px dashed #dcdde1; }
   }
 </style>
@@ -116,9 +121,10 @@ const prep = (menu: (typeof menus)[number]) => {
   const printMenu = (r: PrintData) => {
     let root = document.getElementById('print-root');
     if (!root) { root = document.createElement('div'); root.id = 'print-root'; document.body.appendChild(root); }
-    root.innerHTML = `<h1>${esc(r.title)}</h1><p>${esc(r.range)}</p>
+    root.innerHTML = `<div class="print-head"><h1>${esc(r.title)}</h1><p>${esc(r.range)}</p></div>
       <h2>Menü 1</h2><div class="menu-grid">${r.daily.map(box).join('')}</div>
-      ${r.week.length ? `<h2>Ganze Woche</h2><div class="menu-flex-center">${r.week.map(box).join('')}</div>` : ''}`;
+      ${r.week.length ? `<h2>Ganze Woche</h2><div class="menu-flex-center">${r.week.map(box).join('')}</div>` : ''}
+      <p class="allergens">Informationen zu Allergenen und Unverträglichkeiten erhalten Sie bei unserem Personal.</p>`;
     document.body.classList.add('printing-menu');
     window.addEventListener('afterprint', () => document.body.classList.remove('printing-menu'), { once: true });
     window.print();

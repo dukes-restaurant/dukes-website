@@ -97,8 +97,9 @@ collections:
         summary: "{{day}}: {{dish}}"
         fields:
           - { name: day, label: Tag, widget: select, options: [Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag, Sonntag] }
-          - { name: soup, label: Suppe, widget: string, required: false }
-          - { name: dish, label: Hauptgang, widget: string }
+          # Limits so gewählt, dass das gedruckte Wochenmenü auf eine A4-Seite passt (Suppe 2 Zeilen, Hauptgang 4 Zeilen)
+          - { name: soup, label: Suppe, widget: string, required: false, maxlength: 44, hint: "Max. 44 Zeichen (2 Zeilen im Druck)" }
+          - { name: dish, label: Hauptgang, widget: string, maxlength: 87, hint: "Max. 87 Zeichen (4 Zeilen im Druck)" }
           - { name: price, label: "Preis (nur falls abweichend)", widget: string, required: false }
       - name: specials
         label: "Specials (z.B. Monats-Special, Dukes Bowle)"
@@ -109,8 +110,8 @@ collections:
         fields: &dish
           - { name: name, label: Name, widget: string }
           - { name: tag, label: "Label (optional)", widget: string, required: false, hint: "z.B. Vegetarisch" }
-          - { name: dish, label: Gericht, widget: string }
-          - { name: description, label: "Beschreibung (optional)", widget: string, required: false }
+          - { name: dish, label: Gericht, widget: string, maxlength: 87, hint: "Max. 87 Zeichen (4 Zeilen im Druck) – zusammen mit der Beschreibung" }
+          - { name: description, label: "Beschreibung (optional)", widget: string, required: false, maxlength: 87, hint: "Wird im Druck ans Gericht angehängt – Gericht + Beschreibung zusammen max. ca. 87 Zeichen" }
           - { name: price, label: Preis, widget: string }
       - name: menus
         label: "Menü 2 / Menü 3 (ganze Woche)"
