@@ -75,6 +75,20 @@ const restaurantLd = {
 
   <FlyerStrip />
 
+  {/* Öffnungszeiten Weihnachten/Neujahr – wird nach dem 02.01.2027 beim nächsten Build automatisch ausgeblendet */}
+  {+today <= Date.UTC(2027, 0, 2) && (
+    <section aria-label="Öffnungszeiten Weihnachten und Neujahr" class="bg-cream">
+      <div class="mx-auto max-w-5xl px-4 pt-12 sm:px-5 sm:pt-16">
+        <a href="/images/weihnachtszeit.jpeg" target="_blank" rel="noopener" class="mx-auto block max-w-md overflow-hidden rounded-2xl shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
+          <img
+            src="/images/weihnachtszeit.jpeg"
+            alt="Öffnungszeiten Weihnacht/Neujahr 2026/27: 21.–23.12. offen; 24.12. Restaurant geschlossen, Club offen; 25. und 26.12. nur am Abend offen (Restaurant + Club); 27.12. Club offen; 28. und 29.12. geschlossen; 30.12.–02.01. nur am Abend offen (Restaurant + Club)."
+            width="1073" height="1600" loading="lazy" class="h-auto w-full"
+          />
+        </a>
+      </div>
+    </section>
+  )}
 
   <section id="wochenmenu" class="scroll-mt-20 bg-cream">
     <div class="mx-auto max-w-7xl px-5 py-20">
