@@ -1,5 +1,5 @@
 ---
-title: Ladys Night
+title: Ladies Night
 date: 2026-12-03
 time: '20.30'
 area: Dukes Club
