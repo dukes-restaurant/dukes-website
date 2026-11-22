@@ -1,5 +1,5 @@
 ---
-title: RUBERNECKS
+title: RUBBERNECKS
 date: 2027-01-30
 time: '21.30'
 area: Eventsaal
